@@ -1,38 +1,40 @@
 package com.wavesplatform.crypto;
 
-public class Base16 {
+@SuppressWarnings("WeakerAccess")
+public abstract class Base16 {
 
-    private byte[] value;
-    private String encoded;
+    public static String encode(Bytes source) {
+        return encode(source.value());
+    }
 
     public static String encode(byte[] source) {
-        return new Base16(source).toString();
+        StringBuilder sb = new StringBuilder();
+        for (byte b : source)
+            sb.append(String.format("%02x", b));
+        return sb.toString();
     }
 
-    public static byte[] decode(String source) {
-        return new Base16(source).toBytes();
+    public static Bytes decode(String source) throws IllegalArgumentException {
+        if (source.length() % 2 == 1)
+            throw new IllegalArgumentException("Invalid hexadecimal string \"" + source + "\"");
+
+        byte[] bytes = new byte[source.length() / 2];
+        for (int i = 0; i < source.length(); i += 2)
+            bytes[i / 2] = hexToByte(source.substring(i, i + 2));
+        return Bytes.of(bytes);
     }
 
-    public Base16(byte[] bytes) {
-        bytes = value;
+    private static byte hexToByte(String hexString) {
+        int firstDigit = toDigit(hexString.charAt(0));
+        int secondDigit = toDigit(hexString.charAt(1));
+        return (byte) ((firstDigit << 4) + secondDigit);
     }
 
-    public Base16(String encoded) {
-        //TODO check validity
-        this.encoded = encoded;
+    private static int toDigit(char hexChar) {
+        int digit = Character.digit(hexChar, 16);
+        if (digit == -1)
+            throw new IllegalArgumentException("Invalid hexadecimal character \"" + hexChar + "\"");
+        return digit;
     }
-
-    public byte[] toBytes() {
-        //TODO lazy
-        return value;
-    }
-
-    @Override
-    public String toString() {
-        //TODO encoded lazy;
-        return encoded;
-    }
-
-    //TODO hash, equals
 
 }
