@@ -15,6 +15,13 @@ public class Util {
         return joinedArray;
     }
 
-    //TODO split()
+    /*TODO what use cases? What if chunksSizes less/more than bytes length?
+    public static byte[][] split(final byte[] bytes, int... chunkSizes) {
+        int chunk = 2;
+        for(int i=0;i<bytes.length;i+=chunk){
+            System.out.println(Arrays.toString(Arrays.copyOfRange(bytes, i, Math.min(bytes.length,i+chunk))));
+        }
+        return ;
+    }*/
 
 }

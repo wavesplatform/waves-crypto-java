@@ -12,6 +12,7 @@ public abstract class Base64 {
     }
 
     public static Bytes decode(String source) throws IllegalArgumentException {
+        if (source.startsWith("base64:")) source = source.substring(7);
         return Bytes.of(java.util.Base64.getDecoder().decode(source));
     }
 

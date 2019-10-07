@@ -7,8 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TestBase16 {
 
-    private byte[] source = "Подъём! 1, two".getBytes();
-    private String expected = "d09fd0bed0b4d18ad191d0bc2120312c2074776f";
+    private byte[] source = "1, two, 𩸽 ?!".getBytes();
+    private String expected = "312c2074776f2c20f0a9b8bd203f21";
+    private String withPrefix = "base16:312c2074776f2c20f0a9b8bd203f21";
 
     @Test
     void encode() {
@@ -19,6 +20,7 @@ class TestBase16 {
     @Test
     void decode() {
         assertThat(Base16.decode(expected).value()).isEqualTo(source);
+        assertThat(Base16.decode(withPrefix).value()).isEqualTo(source);
     }
 
     @Test

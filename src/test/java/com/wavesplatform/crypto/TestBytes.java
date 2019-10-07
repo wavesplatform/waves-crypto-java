@@ -2,6 +2,8 @@ package com.wavesplatform.crypto;
 
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("FieldCanBeLocal")
@@ -10,8 +12,13 @@ class TestBytes {
     private byte[] source1 = "test".getBytes();
     private byte[] source2 = "test".getBytes();
     private byte[] source3 = "some".getBytes();
-    private String string = "Подъём! 1, two";
+    private String string = "1, two, 𩸽 ?!";
     private long number = 100500;
+
+    @Test
+    void length() {
+        assertThat(Bytes.of(string.getBytes(StandardCharsets.UTF_8)).length()).isEqualTo(15);
+    }
 
     @Test
     void equality() {

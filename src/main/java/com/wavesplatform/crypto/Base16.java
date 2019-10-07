@@ -15,6 +15,7 @@ public abstract class Base16 {
     }
 
     public static Bytes decode(String source) throws IllegalArgumentException {
+        if (source.startsWith("base16:")) source = source.substring(7);
         if (source.length() % 2 == 1)
             throw new IllegalArgumentException("Invalid hexadecimal string \"" + source + "\"");
 
