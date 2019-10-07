@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Util {
 
     public static Bytes concat(final Bytes bytes1, Bytes bytes2) {
-        return Bytes.of(concat(bytes1.value(), bytes2.value()));
+        return Bytes.of(concat(bytes1.array(), bytes2.array()));
     }
 
     public static byte[] concat(final byte[] array1, byte[] array2) {

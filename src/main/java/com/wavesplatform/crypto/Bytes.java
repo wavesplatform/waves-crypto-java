@@ -21,48 +21,48 @@ public class Bytes {
         return new Bytes(number);
     }
 
-    private final byte[] value;
+    private final byte[] array;
 
     public Bytes(byte[] bytes) {
-        value = bytes;
+        array = bytes; //TODO copy???
     }
 
     public Bytes(String utf8String) {
-        value = utf8String.getBytes(StandardCharsets.UTF_8);
+        array = utf8String.getBytes(StandardCharsets.UTF_8);
     }
 
     public Bytes(long number) {
         ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
         buffer.putLong(number);
-        value = buffer.array();
+        array = buffer.array();
     }
 
-    public byte[] value() {
-        return value;
+    public byte[] array() {
+        return array;
     }
 
     public int length() {
-        return value().length;
+        return array().length;
     }
 
     public String base16() {
-        return Base16.encode(value());
+        return Base16.encode(array());
     }
 
     public String base58() {
-        return Base58.encode(value());
+        return Base58.encode(array());
     }
 
     public String base64() {
-        return Base64.encode(value());
+        return Base64.encode(array());
     }
 
     public String utf8() {
-        return new String(value(), StandardCharsets.UTF_8);
+        return new String(array(), StandardCharsets.UTF_8);
     }
 
     public boolean equals(byte[] bytes) {
-        return Arrays.equals(value(), bytes);
+        return Arrays.equals(array(), bytes);
     }
 
     @Override
@@ -70,12 +70,12 @@ public class Bytes {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bytes bytes = (Bytes) o;
-        return Arrays.equals(value(), bytes.value());
+        return Arrays.equals(array(), bytes.array());
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(value());
+        return Arrays.hashCode(array());
     }
 
     @Override

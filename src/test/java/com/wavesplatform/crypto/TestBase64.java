@@ -19,8 +19,8 @@ class TestBase64 {
 
     @Test
     void decode() {
-        assertThat(Base64.decode(expected).value()).isEqualTo(source);
-        assertThat(Base64.decode(withPrefix).value()).isEqualTo(source);
+        assertThat(Base64.decode(expected).array()).isEqualTo(source);
+        assertThat(Base64.decode(withPrefix).array()).isEqualTo(source);
     }
 
     @Test
@@ -33,7 +33,7 @@ class TestBase64 {
     @Test
     void empty() {
         assertThat(Base64.encode(new byte[]{})).isEqualTo("");
-        assertThat(Base64.decode("").value()).isEqualTo(new byte[]{});
+        assertThat(Base64.decode("").array()).isEqualTo(new byte[]{});
     }
 
 }

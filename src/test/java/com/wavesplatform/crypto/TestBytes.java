@@ -24,10 +24,10 @@ class TestBytes {
     void equality() {
         assertThat(Bytes.of(source1)).isEqualTo(Bytes.of(source1));
         assertThat(Bytes.of(source1)).isEqualTo(Bytes.of(source2));
-        assertThat(Bytes.of(source1).value()).isEqualTo(Bytes.of(source2).value());
+        assertThat(Bytes.of(source1).array()).isEqualTo(Bytes.of(source2).array());
         assertThat(Bytes.of(source1).equals(source1)).isTrue();
         assertThat(Bytes.of(source1).equals(source2)).isTrue();
-        assertThat(Bytes.of(source1).equals(Bytes.of(source2).value())).isTrue();
+        assertThat(Bytes.of(source1).equals(Bytes.of(source2).array())).isTrue();
         assertThat(Bytes.of(source1).equals(source3)).isFalse();
     }
 
@@ -45,7 +45,7 @@ class TestBytes {
 
     @Test
     void number() {
-        assertThat(Bytes.of(number).value()).isEqualTo(new byte[]{0, 0, 0, 0, 0, 1, -120, -108});
+        assertThat(Bytes.of(number).array()).isEqualTo(new byte[]{0, 0, 0, 0, 0, 1, -120, -108});
     }
 
 }

@@ -6,6 +6,7 @@ public class ChainId {
     public static final short TESTNET = 'T';
     public static final short STAGENET = 'S';
 
+    //TODO as object?
     //TODO custom?
 
 }

@@ -19,14 +19,14 @@ class TestBase16 {
 
     @Test
     void decode() {
-        assertThat(Base16.decode(expected).value()).isEqualTo(source);
-        assertThat(Base16.decode(withPrefix).value()).isEqualTo(source);
+        assertThat(Base16.decode(expected).array()).isEqualTo(source);
+        assertThat(Base16.decode(withPrefix).array()).isEqualTo(source);
     }
 
     @Test
     void empty() {
         assertThat(Base16.encode(new byte[]{})).isEqualTo("");
-        assertThat(Base16.decode("").value()).isEqualTo(new byte[]{});
+        assertThat(Base16.decode("").array()).isEqualTo(new byte[]{});
     }
 
     @Test

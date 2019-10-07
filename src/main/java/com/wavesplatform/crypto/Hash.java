@@ -17,7 +17,7 @@ public class Hash {
     }
 
     public static Bytes sha256(Bytes source) {
-        return sha256(source.value());
+        return sha256(source.array());
     }
 
     public static Bytes blake(byte[] source) {
@@ -25,7 +25,7 @@ public class Hash {
     }
 
     public static Bytes blake(Bytes source) {
-        return blake(source.value());
+        return blake(source.array());
     }
 
     public static Bytes keccak(byte[] source) {
@@ -33,7 +33,7 @@ public class Hash {
     }
 
     public static Bytes keccak(Bytes source) {
-        return keccak(source.value());
+        return keccak(source.array());
     }
 
     public static Bytes secureHash(byte[] source) {
@@ -41,7 +41,7 @@ public class Hash {
     }
 
     public static Bytes secureHash(Bytes source) {
-        return secureHash(source.value());
+        return secureHash(source.array());
     }
 
     private static Digest digest(ThreadLocal<Digest> cache) {

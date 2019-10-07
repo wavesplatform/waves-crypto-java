@@ -23,7 +23,7 @@ public abstract class Base58 {
      * @return the base58-encoded string
      */
     public static String encode(Bytes input) {
-        return encode(input.value());
+        return encode(input.array());
     }
 
     /**

@@ -4,7 +4,7 @@ package com.wavesplatform.crypto;
 public abstract class Base64 {
 
     public static String encode(Bytes source) {
-        return encode(source.value());
+        return encode(source.array());
     }
 
     public static String encode(byte[] source) {
