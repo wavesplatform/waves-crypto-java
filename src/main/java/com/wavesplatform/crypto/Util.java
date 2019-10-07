@@ -24,4 +24,8 @@ public class Util {
         return ;
     }*/
 
+    //TODO verifySignature
+    //TODO verifyPublicKey
+    //TODO verifyAddress
+
 }

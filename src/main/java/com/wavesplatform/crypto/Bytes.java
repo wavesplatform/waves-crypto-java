@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class Bytes {
 
     //TODO lazy
+    //TODO random(length)
 
     public static Bytes of(byte[] source) {
         return new Bytes(source);
