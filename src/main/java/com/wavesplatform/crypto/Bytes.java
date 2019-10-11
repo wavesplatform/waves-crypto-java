@@ -25,7 +25,7 @@ public class Bytes {
     private final byte[] array;
 
     public Bytes(byte[] bytes) {
-        array = bytes; //TODO copy???
+        array = Arrays.copyOf(bytes, bytes.length); //TODO copy or not?
     }
 
     public Bytes(String utf8String) {
@@ -39,31 +39,31 @@ public class Bytes {
     }
 
     public byte[] array() {
-        return array;
+        return Arrays.copyOf(array, array.length); //TODO copy or not?
     }
 
     public int length() {
-        return array().length;
+        return array.length;
     }
 
     public String base16() {
-        return Base16.encode(array());
+        return Base16.encode(array);
     }
 
     public String base58() {
-        return Base58.encode(array());
+        return Base58.encode(array);
     }
 
     public String base64() {
-        return Base64.encode(array());
+        return Base64.encode(array);
     }
 
     public String utf8() {
-        return new String(array(), StandardCharsets.UTF_8);
+        return new String(array, StandardCharsets.UTF_8);
     }
 
     public boolean equals(byte[] bytes) {
-        return Arrays.equals(array(), bytes);
+        return Arrays.equals(array, bytes);
     }
 
     @Override
@@ -71,12 +71,12 @@ public class Bytes {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bytes bytes = (Bytes) o;
-        return Arrays.equals(array(), bytes.array());
+        return Arrays.equals(array, bytes.array);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(array());
+        return Arrays.hashCode(array);
     }
 
     @Override

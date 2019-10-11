@@ -32,6 +32,10 @@ public class Seed {
         this.nonce = nonce;
     }
 
+    public int nonce() {
+        return nonce;
+    }
+
     public Bytes bytes() {
         return bytes;
     }
@@ -44,8 +48,16 @@ public class Seed {
         return bytes.base58();
     }
 
-    //TODO keyPair() + lazy
-    //TODO address(chainId)
-    //TODO sign
+    public KeyPair keys() {
+        return new KeyPair(this); //TODO lazy
+    }
+
+    public Bytes address(byte chainId) { //TODO Address, ChainId
+        return keys().address(chainId);
+    }
+
+    public Bytes sign(Bytes message) {
+        return keys().sign(message);
+    }
 
 }
