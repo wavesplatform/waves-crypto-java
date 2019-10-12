@@ -46,6 +46,10 @@ public class Bytes {
         return array.length;
     }
 
+    public Bytes slice(int offset, int length) {
+        return Bytes.of(Arrays.copyOfRange(array, offset, length)); //TODO copy or not?
+    }
+
     public String base16() {
         return Base16.encode(array);
     }

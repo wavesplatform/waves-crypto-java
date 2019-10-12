@@ -46,7 +46,7 @@ public class KeyPair {
         ByteBuffer buf = ByteBuffer.allocate(26);
         Bytes hash = Hash.secureHash(publicKey);
         buf.put((byte) 1).put(chainId).put(hash.array(), 0, 20);
-        byte[] checksum = Hash.secureHash(buf.array()).array();
+        byte[] checksum = Hash.secureHash(Arrays.copyOfRange(buf.array(), 0 , 22)).array();
         buf.put(checksum, 0, 4);
         return Bytes.of(buf.array());
     }

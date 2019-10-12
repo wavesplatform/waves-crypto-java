@@ -48,6 +48,7 @@ public class Seed {
         return bytes.base58();
     }
 
+    //TODO keys(nonce) from array of nonces?
     public KeyPair keys() {
         return new KeyPair(this); //TODO lazy
     }
