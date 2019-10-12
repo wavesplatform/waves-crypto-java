@@ -5,14 +5,22 @@ import java.util.Arrays;
 @SuppressWarnings("WeakerAccess")
 public class Util {
 
-    public static Bytes concat(final Bytes bytes1, Bytes bytes2) {
-        return Bytes.of(concat(bytes1.array(), bytes2.array()));
+    public static Bytes concat(final Bytes... bytes) {
+        byte[][] arrays = new byte[bytes.length][];
+        for (int i = 0; i < bytes.length; i++) {
+            arrays[i] = bytes[i].array();
+        }
+        return Bytes.of(concat(arrays));
     }
 
-    public static byte[] concat(final byte[] array1, byte[] array2) {
-        byte[] joinedArray = Arrays.copyOf(array1, array1.length + array2.length);
-        System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);
-        return joinedArray;
+    public static byte[] concat(final byte[]... arrays) {
+        byte[] total = new byte[0];
+        for (byte[] a : arrays) {
+            byte[] joinedArray = Arrays.copyOf(total, total.length + a.length);
+            System.arraycopy(a, 0, joinedArray, total.length, a.length);
+            total = joinedArray;
+        }
+        return total;
     }
 
     /*TODO what use cases? What if chunksSizes less/more than bytes length?
