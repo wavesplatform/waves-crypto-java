@@ -1,5 +1,6 @@
 package com.wavesplatform.crypto;
 
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 @SuppressWarnings("WeakerAccess")
@@ -21,6 +22,12 @@ public class Util {
             total = joinedArray;
         }
         return total;
+    }
+
+    public static Bytes intToBytes(int number) {
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+        buffer.putInt(number);
+        return Bytes.of(buffer.array());
     }
 
     /*TODO what use cases? What if chunksSizes less/more than bytes length?

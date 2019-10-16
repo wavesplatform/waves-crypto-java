@@ -10,6 +10,8 @@ public class Seed {
         return new Seed("", 0); //TODO
     }
 
+    //TODO wallet encrypt/decrypt + secure memory for seed/wallet/privateKey
+
     private Bytes bytes;
     private int nonce;
 
@@ -26,8 +28,6 @@ public class Seed {
     }
 
     public Seed(Bytes phraseBytes, int nonce) {
-        if (nonce < 0 || nonce > 65535) //TODO -+ or int with validation?
-            throw new IllegalArgumentException("Nonce must be in [0..65535] but actual: " + nonce);
         bytes = phraseBytes;
         this.nonce = nonce;
     }
@@ -38,6 +38,10 @@ public class Seed {
 
     public Bytes bytes() {
         return bytes;
+    }
+
+    public Bytes bytesWithNonce() {
+        return Util.concat(Util.intToBytes(nonce()), bytes());
     }
 
     public String utf8() {
@@ -60,5 +64,7 @@ public class Seed {
     public Bytes sign(Bytes message) {
         return keys().sign(message);
     }
+
+    //TODO toString, ...
 
 }

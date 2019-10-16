@@ -16,9 +16,7 @@ public class KeyPair {
 
     public KeyPair(Seed seed) {
         // account seed from seed & nonce
-        ByteBuffer buf = ByteBuffer.allocate(seed.bytes().array().length + 4);
-        buf.putInt(seed.nonce()).put(seed.bytes().array());
-        Bytes accountSeed = Hash.secureHash(Bytes.of(buf.array()));
+        Bytes accountSeed = Hash.secureHash(seed.bytesWithNonce());
 
         // private key from account seed & chainId
         Bytes hashedSeed = Hash.sha256(accountSeed);
