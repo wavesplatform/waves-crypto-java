@@ -12,36 +12,20 @@ public class Hash {
     private static final ThreadLocal<Digest> KECCAK256 = new ThreadLocal<>();
     private static final ThreadLocal<Digest> SHA256 = new ThreadLocal<>();
 
-    public static Bytes sha256(byte[] source) {
-        return Bytes.of(hash(source, 0, source.length, Hash.SHA256));
+    public static byte[] sha256(byte[] source) {
+        return hash(source, 0, source.length, Hash.SHA256);
     }
 
-    public static Bytes sha256(Bytes source) {
-        return sha256(source.array());
+    public static byte[] blake(byte[] source) {
+        return hash(source, 0, source.length, Hash.BLAKE2B256);
     }
 
-    public static Bytes blake(byte[] source) {
-        return Bytes.of(hash(source, 0, source.length, Hash.BLAKE2B256));
+    public static byte[] keccak(byte[] source) {
+        return hash(source, 0, source.length, Hash.KECCAK256);
     }
 
-    public static Bytes blake(Bytes source) {
-        return blake(source.array());
-    }
-
-    public static Bytes keccak(byte[] source) {
-        return Bytes.of(hash(source, 0, source.length, Hash.KECCAK256));
-    }
-
-    public static Bytes keccak(Bytes source) {
-        return keccak(source.array());
-    }
-
-    public static Bytes secureHash(byte[] source) {
+    public static byte[] secureHash(byte[] source) {
         return keccak(blake(source));
-    }
-
-    public static Bytes secureHash(Bytes source) {
-        return secureHash(source.array());
     }
 
     private static Digest digest(ThreadLocal<Digest> cache) {

@@ -11,50 +11,49 @@ public class KeyPair {
 
     private static final Curve25519 cipher = Curve25519.getInstance(Curve25519.BEST);
 
-    private final Bytes privateKey; //TODO Object? Bytes?
-    private final Bytes publicKey; //TODO Object? Bytes?
+    private final byte[] privateKey; //TODO Object?
+    private final byte[] publicKey; //TODO Object?
 
     public KeyPair(Seed seed) {
         // account seed from seed & nonce
-        Bytes accountSeed = Hash.secureHash(seed.bytesWithNonce());
+        byte[] accountSeed = Hash.secureHash(seed.bytesWithNonce());
 
         // private key from account seed & chainId
-        Bytes hashedSeed = Hash.sha256(accountSeed);
-        byte[] prKey = Arrays.copyOf(hashedSeed.array(), 32);
-        prKey[0] &= 248;
-        prKey[31] &= 127;
-        prKey[31] |= 64;
-        privateKey = Bytes.of(prKey);
+        byte[] hashedSeed = Hash.sha256(accountSeed);
+        privateKey = Arrays.copyOf(hashedSeed, 32);
+        privateKey[0] &= 248;
+        privateKey[31] &= 127;
+        privateKey[31] |= 64;
 
         // public key from private key
         byte[] pubKey = new byte[32];
-        curve_sigs.curve25519_keygen(pubKey, prKey);
-        publicKey = Bytes.of(pubKey);
+        curve_sigs.curve25519_keygen(pubKey, privateKey);
+        publicKey = pubKey;
     }
 
-    public Bytes privateKey() {
+    public byte[] privateKey() {
         return privateKey; //TODO copy?
     }
 
-    public Bytes publicKey() {
+    public byte[] publicKey() {
         return publicKey; // TODO copy?
     }
 
-    public Bytes address(byte chainId) { //TODO Address(publicKey, chainId)? ChainId?
+    public byte[] address(byte chainId) { //TODO Address(publicKey, chainId)? ChainId?
         ByteBuffer buf = ByteBuffer.allocate(26);
-        Bytes hash = Hash.secureHash(publicKey);
-        buf.put((byte) 1).put(chainId).put(hash.array(), 0, 20);
-        byte[] checksum = Hash.secureHash(Arrays.copyOfRange(buf.array(), 0 , 22)).array();
+        byte[] hash = Hash.secureHash(publicKey);
+        buf.put((byte) 1).put(chainId).put(hash, 0, 20);
+        byte[] checksum = Hash.secureHash(Arrays.copyOfRange(buf.array(), 0 , 22));
         buf.put(checksum, 0, 4);
-        return Bytes.of(buf.array());
+        return buf.array();
     }
 
-    public Bytes sign(Bytes message) {
-        return Bytes.of(cipher.calculateSignature(privateKey.array(), message.array()));
+    public byte[] sign(byte[] message) {
+        return cipher.calculateSignature(privateKey, message);
     }
 
-    public boolean verify(Bytes message, Bytes signature) {
-        return cipher.verifySignature(publicKey.array(), message.array(), signature.array());
+    public boolean verify(byte[] message, byte[] signature) {
+        return cipher.verifySignature(publicKey, message, signature);
     }
 
 }

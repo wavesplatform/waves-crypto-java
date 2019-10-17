@@ -1,19 +1,37 @@
 package com.wavesplatform.crypto;
 
 @SuppressWarnings("WeakerAccess")
-public abstract class Base64 {
-
-    public static String encode(Bytes source) {
-        return encode(source.array());
-    }
+public class Base64 {
 
     public static String encode(byte[] source) {
-        return java.util.Base64.getEncoder().encodeToString(source);
+        return new Base64(source).encoded();
     }
 
-    public static Bytes decode(String source) throws IllegalArgumentException {
-        if (source.startsWith("base64:")) source = source.substring(7);
-        return Bytes.of(java.util.Base64.getDecoder().decode(source));
+    public static byte[] decode(String source) throws IllegalArgumentException {
+        return new Base64(source).decoded();
+    }
+
+    private byte[] bytes;
+    private String encoded;
+
+    public Base64(byte[] source) {
+        this.encoded = java.util.Base64.getEncoder().encodeToString(source);
+        this.bytes = source;
+    }
+
+    public Base64(String encodedString) {
+        if (encodedString == null) throw new IllegalArgumentException("Base64 string cannot be null");
+        if (encodedString.startsWith("base64:")) encodedString = encodedString.substring(7);
+        this.bytes = java.util.Base64.getDecoder().decode(encodedString);
+        this.encoded = encodedString;
+    }
+
+    public String encoded() {
+        return this.encoded;
+    }
+
+    public byte[] decoded() {
+        return this.bytes;
     }
 
 }

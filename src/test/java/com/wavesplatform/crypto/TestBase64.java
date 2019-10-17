@@ -3,37 +3,44 @@ package com.wavesplatform.crypto;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@SuppressWarnings("FieldCanBeLocal")
 class TestBase64 {
 
-    private byte[] source = "1, two, 𩸽 ?!".getBytes();
-    private String expected = "MSwgdHdvLCDwqbi9ID8h";
-    private String withPrefix = "base64:MSwgdHdvLCDwqbi9ID8h";
+    private byte[] source = "1, two, 𩸽 ?!&".getBytes();
+    private String expected = "MSwgdHdvLCDwqbi9ID8hJg";
+    private String withPrefix = "base64:MSwgdHdvLCDwqbi9ID8hJg";
+    private String withTail = "MSwgdHdvLCDwqbi9ID8hJg==";
+    private String withPrefixAndTail = "base64:MSwgdHdvLCDwqbi9ID8hJg==";
 
     @Test
     void encode() {
         assertThat(Base64.encode(source)).isEqualTo(expected);
-        assertThat(Base64.encode(Bytes.of(source))).isEqualTo(expected);
+        assertThat(new Base64(source).encoded()).isEqualTo(expected);
     }
 
     @Test
     void decode() {
-        assertThat(Base64.decode(expected).array()).isEqualTo(source);
-        assertThat(Base64.decode(withPrefix).array()).isEqualTo(source);
+        assertThat(Base64.decode(expected)).isEqualTo(source);
+        assertThat(new Base64(withPrefix).decoded()).isEqualTo(source);
     }
 
     @Test
-    void optionalTail() {
-        assertThat(Base64.decode("MSwgdHdvLCDwqbi9ID8hJg==")).isEqualTo(Bytes.of("1, two, 𩸽 ?!&".getBytes()));
-        assertThat(Base64.decode("MSwgdHdvLCDwqbi9ID8hJg")).isEqualTo(Bytes.of("1, two, 𩸽 ?!&".getBytes()));
-        assertThat(Base64.decode("base64:MSwgdHdvLCDwqbi9ID8hJg")).isEqualTo(Bytes.of("1, two, 𩸽 ?!&".getBytes()));
+    void optionalPrefixAndTail() {
+        assertThat(Base64.decode(withPrefix)).isEqualTo(source);
+        assertThat(new Base64(withPrefix).decoded()).isEqualTo(source);
+        assertThat(Base64.decode(withTail)).isEqualTo(source);
+        assertThat(new Base64(withTail).decoded()).isEqualTo(source);
+        assertThat(Base64.decode(withPrefixAndTail)).isEqualTo(source);
+        assertThat(new Base64(withPrefixAndTail).decoded()).isEqualTo(source);
     }
 
     @Test
     void empty() {
-        assertThat(Base64.encode(new byte[]{})).isEqualTo("");
-        assertThat(Base64.decode("").array()).isEqualTo(new byte[]{});
+        assertThat(Base64.encode(new byte[0])).isEqualTo("");
+        assertThat(new Base64(new byte[0]).encoded()).isEqualTo("");
+        assertThat(Base64.decode("")).isEqualTo(new byte[0]);
+        assertThat(new Base64("")).isEqualTo(new byte[0]);
     }
 
 }

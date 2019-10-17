@@ -3,7 +3,7 @@ package com.wavesplatform.crypto;
 import java.util.Arrays;
 
 @SuppressWarnings("WeakerAccess")
-public abstract class Base58 {
+public class Base58 {
 
     public static final char[] ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz".toCharArray();
     private static final char ENCODED_ZERO = ALPHABET[0];
@@ -19,47 +19,11 @@ public abstract class Base58 {
     /**
      * Encodes the given bytes as a base58 string (no checksum is appended).
      *
-     * @param input the bytes to encode
+     * @param source the bytes to encode
      * @return the base58-encoded string
      */
-    public static String encode(Bytes input) {
-        return encode(input.array());
-    }
-
-    /**
-     * Encodes the given bytes as a base58 string (no checksum is appended).
-     *
-     * @param input the bytes to encode
-     * @return the base58-encoded string
-     */
-    public static String encode(byte[] input) {
-        if (input.length == 0) {
-            return "";
-        }
-        // Count leading zeros.
-        int zeros = 0;
-        while (zeros < input.length && input[zeros] == 0) {
-            ++zeros;
-        }
-        // Convert base-256 digits to base-58 digits (plus conversion to ASCII characters)
-        input = Arrays.copyOf(input, input.length); // since we modify it in-place
-        char[] encoded = new char[input.length * 2]; // upper bound
-        int outputStart = encoded.length;
-        for (int inputStart = zeros; inputStart < input.length; ) {
-            encoded[--outputStart] = ALPHABET[divmod(input, inputStart, 256, 58)];
-            if (input[inputStart] == 0) {
-                ++inputStart; // optimization - skip leading zeros
-            }
-        }
-        // Preserve exactly as many leading encoded zeros in output as there were leading zeros in input.
-        while (outputStart < encoded.length && encoded[outputStart] == ENCODED_ZERO) {
-            ++outputStart;
-        }
-        while (--zeros >= 0) {
-            encoded[--outputStart] = ENCODED_ZERO;
-        }
-        // Return encoded string (including encoded leading zeros).
-        return new String(encoded, outputStart, encoded.length - outputStart);
+    public static String encode(byte[] source) {
+        return new Base58(source).encoded();
     }
 
     /**
@@ -69,40 +33,91 @@ public abstract class Base58 {
      * @return the decoded data bytes
      * @throws IllegalArgumentException if the given string is not a valid base58 string
      */
-    public static Bytes decode(String input) throws IllegalArgumentException {
-        if (input.startsWith("base58:")) input = input.substring(7);
-        if (input.length() == 0) return Bytes.of(new byte[0]);
+    public static byte[] decode(String input) throws IllegalArgumentException {
+        return new Base58(input).decoded();
+    }
 
-        // Convert the base58-encoded ASCII chars to a base58 byte sequence (base58 digits).
-        byte[] input58 = new byte[input.length()];
-        for (int i = 0; i < input.length(); ++i) {
-            char c = input.charAt(i);
-            int digit = c < 128 ? INDEXES[c] : -1;
-            if (digit < 0) {
-                throw new IllegalArgumentException("Illegal character \"" + c + "\" at position " + i);
+    private byte[] bytes;
+    private String encoded;
+
+    public Base58(byte[] source) {
+        if (source.length == 0) {
+            this.encoded = "";
+        } else {
+            // Count leading zeros.
+            int zeros = 0;
+            while (zeros < source.length && source[zeros] == 0) {
+                ++zeros;
             }
-            input58[i] = (byte) digit;
-        }
-        // Count leading zeros.
-        int zeros = 0;
-        while (zeros < input58.length && input58[zeros] == 0) {
-            ++zeros;
-        }
-        // Convert base-58 digits to base-256 digits.
-        byte[] decoded = new byte[input.length()];
-        int outputStart = decoded.length;
-        for (int inputStart = zeros; inputStart < input58.length; ) {
-            decoded[--outputStart] = divmod(input58, inputStart, 58, 256);
-            if (input58[inputStart] == 0) {
-                ++inputStart; // optimization - skip leading zeros
+            // Convert base-256 digits to base-58 digits (plus conversion to ASCII characters)
+            source = Arrays.copyOf(source, source.length); // since we modify it in-place
+            char[] encoded = new char[source.length * 2]; // upper bound
+            int outputStart = encoded.length;
+            for (int inputStart = zeros; inputStart < source.length; ) {
+                encoded[--outputStart] = ALPHABET[divmod(source, inputStart, 256, 58)];
+                if (source[inputStart] == 0) {
+                    ++inputStart; // optimization - skip leading zeros
+                }
             }
+            // Preserve exactly as many leading encoded zeros in output as there were leading zeros in input.
+            while (outputStart < encoded.length && encoded[outputStart] == ENCODED_ZERO) {
+                ++outputStart;
+            }
+            while (--zeros >= 0) {
+                encoded[--outputStart] = ENCODED_ZERO;
+            }
+            // create encoded string (including encoded leading zeros).
+            this.encoded = new String(encoded, outputStart, encoded.length - outputStart);
         }
-        // Ignore extra leading zeroes that were added during the calculation.
-        while (outputStart < decoded.length && decoded[outputStart] == 0) {
-            ++outputStart;
+        this.bytes = source;
+    }
+
+    public Base58(String encodedString) throws IllegalArgumentException {
+        if (encodedString == null) throw new IllegalArgumentException("Base58 string cannot be null");
+        if (encodedString.startsWith("base58:")) encodedString = encodedString.substring(7);
+        if (encodedString.length() == 0)
+            this.bytes = new byte[0];
+        else {
+            // Convert the base58-encoded ASCII chars to a base58 byte sequence (base58 digits).
+            byte[] input58 = new byte[encodedString.length()];
+            for (int i = 0; i < encodedString.length(); ++i) {
+                char c = encodedString.charAt(i);
+                int digit = c < 128 ? INDEXES[c] : -1;
+                if (digit < 0) {
+                    throw new IllegalArgumentException("Illegal character \"" + c + "\" at position " + i);
+                }
+                input58[i] = (byte) digit;
+            }
+            // Count leading zeros.
+            int zeros = 0;
+            while (zeros < input58.length && input58[zeros] == 0) {
+                ++zeros;
+            }
+            // Convert base-58 digits to base-256 digits.
+            byte[] decoded = new byte[encodedString.length()];
+            int outputStart = decoded.length;
+            for (int inputStart = zeros; inputStart < input58.length; ) {
+                decoded[--outputStart] = divmod(input58, inputStart, 58, 256);
+                if (input58[inputStart] == 0) {
+                    ++inputStart; // optimization - skip leading zeros
+                }
+            }
+            // Ignore extra leading zeroes that were added during the calculation.
+            while (outputStart < decoded.length && decoded[outputStart] == 0) {
+                ++outputStart;
+            }
+            // Return decoded data (including original number of leading zeros).
+            this.bytes = Arrays.copyOfRange(decoded, outputStart - zeros, decoded.length);
         }
-        // Return decoded data (including original number of leading zeros).
-        return Bytes.of(Arrays.copyOfRange(decoded, outputStart - zeros, decoded.length));
+        this.encoded = encodedString;
+    }
+
+    public String encoded() {
+        return this.encoded;
+    }
+
+    public byte[] decoded() {
+        return this.bytes;
     }
 
     /**

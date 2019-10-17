@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static com.wavesplatform.crypto.ChainId.TESTNET;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressWarnings("FieldCanBeLocal")
 class TestSeedAndKeys {
 
     private String phrase = "blame vacant regret company chase trip grant funny brisk innocent";
@@ -18,9 +19,9 @@ class TestSeedAndKeys {
 
         assertThat(seed.utf8()).isEqualTo(phrase);
         assertThat(seed.nonce()).isEqualTo(0);
-        assertThat(seed.keys().privateKey().base58()).isEqualTo(privateKey);
-        assertThat(seed.keys().publicKey().base58()).isEqualTo(publicKey);
-        assertThat(seed.keys().address(TESTNET).base58()).isEqualTo(address);
+        assertThat(Base58.encode(seed.keys().privateKey())).isEqualTo(privateKey);
+        assertThat(Base58.encode(seed.keys().publicKey())).isEqualTo(publicKey);
+        assertThat(Base58.encode(seed.keys().address(TESTNET))).isEqualTo(address);
     }
 
 }

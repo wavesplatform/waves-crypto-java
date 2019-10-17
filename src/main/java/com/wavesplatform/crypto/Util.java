@@ -1,17 +1,34 @@
 package com.wavesplatform.crypto;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Util {
 
-    public static Bytes concat(final Bytes... bytes) {
-        byte[][] arrays = new byte[bytes.length][];
-        for (int i = 0; i < bytes.length; i++) {
-            arrays[i] = bytes[i].array();
-        }
-        return Bytes.of(concat(arrays));
+    public static byte[] intToBytes(int number) {
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+        buffer.putInt(number);
+        return buffer.array();
+    }
+
+    public static byte[] longToBytes(long number) {
+        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        buffer.putLong(number);
+        return buffer.array();
+    }
+
+    public static String bytesToUtf8(byte[] bytes) {
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    public static byte[] utf8ToBytes(String string) {
+        return string.getBytes(StandardCharsets.UTF_8);
+    }
+
+    public static byte[] emptyBytes() {
+        return new byte[0];
     }
 
     public static byte[] concat(final byte[]... arrays) {
@@ -24,12 +41,6 @@ public class Util {
         return total;
     }
 
-    public static Bytes intToBytes(int number) {
-        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
-        buffer.putInt(number);
-        return Bytes.of(buffer.array());
-    }
-
     /*TODO what use cases? What if chunksSizes less/more than bytes length?
     public static byte[][] split(final byte[] bytes, int... chunkSizes) {
         int chunk = 2;
@@ -39,6 +50,7 @@ public class Util {
         return ;
     }*/
 
+    //TODO bytes clone, equality
     //TODO verifySignature
     //TODO verifyPublicKey
     //TODO verifyAddress

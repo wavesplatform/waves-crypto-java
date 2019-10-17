@@ -1,5 +1,6 @@
 package com.wavesplatform.crypto;
 
+@SuppressWarnings("unused")
 public class Seed {
 
     public static Seed random() {
@@ -12,7 +13,7 @@ public class Seed {
 
     //TODO wallet encrypt/decrypt + secure memory for seed/wallet/privateKey
 
-    private Bytes bytes;
+    private byte[] bytes;
     private int nonce;
 
     public Seed(String phrase) {
@@ -20,14 +21,14 @@ public class Seed {
     }
 
     public Seed(String phrase, int nonce) {
-        this(Bytes.of(phrase), nonce);
+        this(phrase.getBytes(), nonce);
     }
 
-    public Seed(Bytes phraseBytes) {
+    public Seed(byte[] phraseBytes) {
         this(phraseBytes, 0);
     }
 
-    public Seed(Bytes phraseBytes, int nonce) {
+    public Seed(byte[] phraseBytes, int nonce) {
         bytes = phraseBytes;
         this.nonce = nonce;
     }
@@ -36,32 +37,32 @@ public class Seed {
         return nonce;
     }
 
-    public Bytes bytes() {
+    public byte[] bytes() {
         return bytes;
-    }
+    } // TODO copy?
 
-    public Bytes bytesWithNonce() {
+    public byte[] bytesWithNonce() {
         return Util.concat(Util.intToBytes(nonce()), bytes());
     }
 
     public String utf8() {
-        return bytes.utf8();
+        return Util.bytesToUtf8(bytes);
     }
 
     public String base58() {
-        return bytes.base58();
+        return Base58.encode(bytes);
     }
 
     //TODO keys(nonce) from array of nonces?
     public KeyPair keys() {
-        return new KeyPair(this); //TODO lazy
+        return new KeyPair(this); //TODO lazy + privateKey() + publicKey()
     }
 
-    public Bytes address(byte chainId) { //TODO Address, ChainId
+    public byte[] address(byte chainId) { //TODO Address, ChainId
         return keys().address(chainId);
     }
 
-    public Bytes sign(Bytes message) {
+    public byte[] sign(byte[] message) {
         return keys().sign(message);
     }
 

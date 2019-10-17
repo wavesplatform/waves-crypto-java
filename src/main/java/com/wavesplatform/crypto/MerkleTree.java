@@ -81,7 +81,7 @@ public class MerkleTree {
     }
 
     private byte[] fastHash(byte[] source) {
-        return Hash.blake(source).array();
+        return Hash.blake(source);
     }
 
     private byte[] leafHash(byte[] source) {
