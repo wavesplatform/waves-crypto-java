@@ -9,15 +9,17 @@ import java.util.Arrays;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class PrivateKey {
 
+    public static final int LENGTH = 32;
+
     public static PrivateKey from(Seed seed) {
         return new PrivateKey(seed);
     }
 
-    public static PrivateKey from(String base58Encoded) throws IllegalArgumentException {
+    public static PrivateKey as(String base58Encoded) throws IllegalArgumentException {
         return new PrivateKey(base58Encoded);
     }
 
-    public static PrivateKey from(byte[] bytes) {
+    public static PrivateKey as(byte[] bytes) {
         return new PrivateKey(bytes);
     }
 
@@ -33,7 +35,7 @@ public class PrivateKey {
 
         // private key from account seed
         byte[] hashedSeed = Hash.sha256(accountSeed);
-        this.bytes = Arrays.copyOf(hashedSeed, 32);
+        this.bytes = Arrays.copyOf(hashedSeed, LENGTH);
         this.bytes[0] &= 248;
         this.bytes[31] &= 127;
         this.bytes[31] |= 64;
@@ -43,9 +45,10 @@ public class PrivateKey {
         this(Base58.decode(base58Encoded));
     }
 
-    public PrivateKey(byte[] bytes) throws IllegalArgumentException {
-        //TODO validate
-        this.bytes = bytes;
+    public PrivateKey(byte[] privateKeyBytes) throws IllegalArgumentException {
+        if (privateKeyBytes.length != LENGTH) throw new IllegalArgumentException("Private key has wrong size in bytes. "
+                + "Expected: " + LENGTH + ", actual: " + privateKeyBytes.length);
+        this.bytes = privateKeyBytes.clone();
     }
 
     public byte[] bytes() {
@@ -70,7 +73,7 @@ public class PrivateKey {
         return cipher.calculateSignature(this.bytes, message);
     }
 
-    public boolean isSignatureValid(byte[] message, byte[] signature) {
+    public boolean isSignatureValid(byte[] message, byte[] signature) throws IllegalArgumentException {
         return this.publicKey().isSignatureValid(message, signature);
     }
 

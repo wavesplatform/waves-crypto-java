@@ -11,15 +11,18 @@ import java.util.Arrays;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class PublicKey {
 
+    public static final int LENGTH = 32;
+    public static final int SIGNATURE_LENGTH = 64;
+
     public static PublicKey from(PrivateKey privateKey) {
         return new PublicKey(privateKey);
     }
 
-    public static PublicKey from(String base58Encoded) throws IllegalArgumentException {
+    public static PublicKey as(String base58Encoded) throws IllegalArgumentException {
         return new PublicKey(base58Encoded);
     }
 
-    public static PublicKey from(byte[] bytes) {
+    public static PublicKey as(byte[] bytes) {
         return new PublicKey(bytes);
     }
 
@@ -29,17 +32,18 @@ public class PublicKey {
     private String encoded;
 
     public PublicKey(PrivateKey privateKey) {
-        bytes = new byte[32];
-        curve_sigs.curve25519_keygen(bytes, privateKey.bytes());
+        this.bytes = new byte[LENGTH];
+        curve_sigs.curve25519_keygen(this.bytes, privateKey.bytes());
     }
 
     public PublicKey(String base58Encoded) throws IllegalArgumentException {
         this(Base58.decode(base58Encoded));
     }
 
-    public PublicKey(byte[] bytes) throws IllegalArgumentException {
-        //TODO validate
-        this.bytes = bytes;
+    public PublicKey(byte[] publicKeyBytes) throws IllegalArgumentException {
+        if (publicKeyBytes.length != LENGTH) throw new IllegalArgumentException("Public key has wrong size in bytes. "
+                + "Expected: " + LENGTH + ", actual: " + publicKeyBytes.length);
+        this.bytes = publicKeyBytes.clone();
     }
 
     public byte[] bytes() {
@@ -60,7 +64,10 @@ public class PublicKey {
         return buf.array();
     }
 
-    public boolean isSignatureValid(byte[] message, byte[] signature) {
+    public boolean isSignatureValid(byte[] message, byte[] signature) throws IllegalArgumentException {
+        if (signature.length != SIGNATURE_LENGTH)
+            throw new IllegalArgumentException("Signature has wrong size in bytes. "
+                    + "Expected: " + SIGNATURE_LENGTH + ", actual: " + signature.length);
         return cipher.verifySignature(bytes, message, signature);
     }
 

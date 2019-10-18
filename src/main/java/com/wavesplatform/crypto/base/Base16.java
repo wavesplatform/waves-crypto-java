@@ -15,16 +15,17 @@ public class Base16 {
     private String encoded;
 
     public Base16(byte[] source) {
+        byte[] input = source.clone();
         StringBuilder sb = new StringBuilder();
-        for (byte b : source)
+        for (byte b : input)
             sb.append(String.format("%02x", b));
 
         this.encoded = sb.toString();
-        this.bytes = source;
+        this.bytes = input;
     }
 
     public Base16(String encodedString) throws IllegalArgumentException {
-        if (encodedString == null) throw new IllegalArgumentException("Base16 string cannot be null");
+        if (encodedString == null) throw new IllegalArgumentException("Base16 string can't be null");
         if (encodedString.startsWith("base16:")) encodedString = encodedString.substring(7);
         if (encodedString.length() % 2 == 1)
             throw new IllegalArgumentException("Invalid base16 string \"" + encodedString + "\"");

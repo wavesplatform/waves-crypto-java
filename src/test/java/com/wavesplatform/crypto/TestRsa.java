@@ -74,7 +74,7 @@ class TestRsa {
     }
 
     @Test
-    void cannotCheckSignaturesByDifferentPair() {
+    void cantCheckSignaturesByDifferentPair() {
         assertAll(
                 () -> assertThat(differentPair.isSignatureValid(NOALG, source245b, noalgSign)).isFalse(),
                 () -> assertThat(differentPair.isSignatureValid(MD5, source32kb, md5Sign)).isFalse(),
@@ -91,7 +91,7 @@ class TestRsa {
     }
 
     @Test
-    void cannotCheckSignaturesByDifferentPublicKey() {
+    void cantCheckSignaturesByDifferentPublicKey() {
         assertAll(
                 () -> assertThat(differentPublicKey.isSignatureValid(NOALG, source245b, noalgSign)).isFalse(),
                 () -> assertThat(differentPublicKey.isSignatureValid(MD5, source32kb, md5Sign)).isFalse(),

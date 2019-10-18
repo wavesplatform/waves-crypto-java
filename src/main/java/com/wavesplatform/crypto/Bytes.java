@@ -24,12 +24,16 @@ public abstract class Bytes {
     }
 
     public static byte[] fromUtf8(String string) throws IllegalArgumentException {
-        if (string == null) throw new IllegalArgumentException("String cannot be null");
+        if (string == null) throw new IllegalArgumentException("String can't be null");
         return string.getBytes(StandardCharsets.UTF_8);
     }
 
     public static byte[] empty() {
         return new byte[0];
+    }
+
+    public static boolean empty(byte[]... arrays) {
+        return Arrays.stream(arrays).noneMatch(a -> a.length == 0);
     }
 
     public static byte[] concat(final byte[]... arrays) {
@@ -42,11 +46,29 @@ public abstract class Bytes {
         return total;
     }
 
-    //TODO chunk/split/slice. What if chunksSizes less/more than bytes length?
+    //TODO split/slice
+    public static byte[][] chunk(byte[] source, int... chunkSizes) throws IllegalArgumentException {
+        if (chunkSizes.length == 0)
+            return new byte[][]{source.clone()};
+        if (Arrays.stream(chunkSizes).anyMatch(s -> s < 0))
+            throw new IllegalArgumentException("Chunk size can't be negative");
+        int chunksTotalSize = Arrays.stream(chunkSizes).sum();
+        if (source.length < chunksTotalSize)
+            throw new IllegalArgumentException("Array length can't be less than sum of desired chunks. "
+                    + "Array length: " + source.length + ", chunks total length: " + chunksTotalSize);
 
-    //TODO bytes clone, equality
-    //TODO verifySignature
-    //TODO verifyPublicKey
-    //TODO verifyAddress
+        byte[][] result = new byte[source.length == chunksTotalSize ? chunkSizes.length : chunkSizes.length + 1][];
+        int mark = 0;
+        for (int i = 0; i < result.length; i++)
+            if (i < chunkSizes.length) {
+                result[i] = Arrays.copyOfRange(source, mark, mark + chunkSizes[i]);
+                mark += chunkSizes[i];
+            } else result[i] = Arrays.copyOfRange(source, mark, source.length);
+        return result;
+    }
+
+    public static boolean equal(byte[]... compared) {
+        return compared.length < 2 || Arrays.stream(compared).allMatch(a -> Arrays.equals(a, compared[0]));
+    }
 
 }

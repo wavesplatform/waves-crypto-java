@@ -61,7 +61,7 @@ public class Seed {
     }
 
     public Seed(byte[] phraseBytes, int nonce) {
-        bytes = phraseBytes;
+        this.bytes = phraseBytes.clone();
         this.nonce = nonce;
     }
 
@@ -104,7 +104,7 @@ public class Seed {
         return this.privateKey().sign(message);
     }
 
-    public boolean isSignatureValid(byte[] message, byte[] signature) {
+    public boolean isSignatureValid(byte[] message, byte[] signature) throws IllegalArgumentException {
         return this.publicKey().isSignatureValid(message, signature);
     }
 

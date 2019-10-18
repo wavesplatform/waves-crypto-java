@@ -40,22 +40,24 @@ public class Base58 {
     private byte[] bytes;
     private String encoded;
 
+    //TODO wat?
     public Base58(byte[] source) {
-        if (source.length == 0) {
+        byte[] input = source.clone();
+        if (input.length == 0) {
             this.encoded = "";
         } else {
             // Count leading zeros.
             int zeros = 0;
-            while (zeros < source.length && source[zeros] == 0) {
+            while (zeros < input.length && input[zeros] == 0) {
                 ++zeros;
             }
             // Convert base-256 digits to base-58 digits (plus conversion to ASCII characters)
-            source = Arrays.copyOf(source, source.length); // since we modify it in-place
-            char[] encoded = new char[source.length * 2]; // upper bound
+            input = Arrays.copyOf(input, input.length); // since we modify it in-place
+            char[] encoded = new char[input.length * 2]; // upper bound
             int outputStart = encoded.length;
-            for (int inputStart = zeros; inputStart < source.length; ) {
-                encoded[--outputStart] = ALPHABET[divmod(source, inputStart, 256, 58)];
-                if (source[inputStart] == 0) {
+            for (int inputStart = zeros; inputStart < input.length; ) {
+                encoded[--outputStart] = ALPHABET[divmod(input, inputStart, 256, 58)];
+                if (input[inputStart] == 0) {
                     ++inputStart; // optimization - skip leading zeros
                 }
             }
@@ -67,13 +69,13 @@ public class Base58 {
                 encoded[--outputStart] = ENCODED_ZERO;
             }
             // create encoded string (including encoded leading zeros).
+            this.bytes = input;
             this.encoded = new String(encoded, outputStart, encoded.length - outputStart);
         }
-        this.bytes = source;
     }
 
     public Base58(String encodedString) throws IllegalArgumentException {
-        if (encodedString == null) throw new IllegalArgumentException("Base58 string cannot be null");
+        if (encodedString == null) throw new IllegalArgumentException("Base58 string can't be null");
         if (encodedString.startsWith("base58:")) encodedString = encodedString.substring(7);
         if (encodedString.length() == 0)
             this.bytes = new byte[0];
