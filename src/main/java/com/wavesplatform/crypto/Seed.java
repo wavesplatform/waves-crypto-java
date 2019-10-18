@@ -101,6 +101,10 @@ public class Seed {
         return this.privateKey().sign(message);
     }
 
+    public boolean isSignatureValid(byte[] message, byte[] signature) {
+        return this.publicKey().isSignatureValid(message, signature);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -68,8 +68,8 @@ public class PrivateKey {
         return cipher.calculateSignature(this.bytes, message);
     }
 
-    public boolean verify(byte[] message, byte[] signature) {
-        return this.publicKey().verify(message, signature);
+    public boolean isSignatureValid(byte[] message, byte[] signature) {
+        return this.publicKey().isSignatureValid(message, signature);
     }
 
     public boolean equals(byte[] anotherKey) {

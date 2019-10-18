@@ -58,7 +58,7 @@ public class PublicKey {
         return buf.array();
     }
 
-    public boolean verify(byte[] message, byte[] signature) {
+    public boolean isSignatureValid(byte[] message, byte[] signature) {
         return cipher.verifySignature(bytes, message, signature);
     }
 

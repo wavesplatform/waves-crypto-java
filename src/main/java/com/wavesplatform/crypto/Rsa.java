@@ -34,7 +34,7 @@ public class Rsa {
 
     public byte[] sign(HashAlg alg, byte[] source) {
         try {
-            Signature sig = Signature.getInstance(alg.value() + "withRSA", bcp);
+            Signature sig = initSignature(alg);
             sig.initSign(keys.getPrivate());
             sig.update(source);
             return sig.sign();
@@ -42,5 +42,23 @@ public class Rsa {
             throw new Error(e);
         }
     }
+
+    public boolean isSignatureValid(HashAlg alg, byte[] message, byte[] proof) {
+        try {
+            Signature sig = initSignature(alg);
+            sig.initVerify(keys.getPublic());
+            sig.update(message);
+            return sig.verify(proof);
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+            throw new Error(e);
+        }
+    }
+
+    private Signature initSignature(HashAlg alg) throws NoSuchAlgorithmException {
+        return Signature.getInstance(alg.value() + "withRSA", bcp);
+    }
+
+    //TODO separate Private/Public keys as account
+    //TODO encrypt/decrypt + via pubKey
 
 }
