@@ -33,7 +33,7 @@ public abstract class Bytes {
     }
 
     public static boolean empty(byte[]... arrays) {
-        return Arrays.stream(arrays).noneMatch(a -> a.length == 0);
+        return Arrays.stream(arrays).allMatch(a -> a.length == 0);
     }
 
     public static byte[] concat(final byte[]... arrays) {
