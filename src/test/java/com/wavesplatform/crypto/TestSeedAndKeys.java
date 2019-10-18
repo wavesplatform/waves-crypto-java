@@ -17,11 +17,11 @@ class TestSeedAndKeys {
     void seedAndKeys() {
         Seed seed = new Seed(phrase);
 
-        assertThat(seed.utf8()).isEqualTo(phrase);
+        assertThat(seed.phrase()).isEqualTo(phrase);
         assertThat(seed.nonce()).isEqualTo(0);
-        assertThat(Base58.encode(seed.keys().privateKey())).isEqualTo(privateKey);
-        assertThat(Base58.encode(seed.keys().publicKey())).isEqualTo(publicKey);
-        assertThat(Base58.encode(seed.keys().address(TESTNET))).isEqualTo(address);
+        assertThat(seed.privateKey().base58()).isEqualTo(privateKey);
+        assertThat(seed.publicKey().base58()).isEqualTo(publicKey);
+        assertThat(Base58.encode(seed.privateKey().address(TESTNET))).isEqualTo(address);
     }
 
 }

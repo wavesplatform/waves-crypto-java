@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class Bytes {
+public abstract class Bytes {
 
     public static byte[] fromInt(int number) {
         ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
@@ -23,7 +23,8 @@ public class Bytes {
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
-    public static byte[] fromUtf8(String string) {
+    public static byte[] fromUtf8(String string) throws IllegalArgumentException {
+        if (string == null) throw new IllegalArgumentException("String cannot be null");
         return string.getBytes(StandardCharsets.UTF_8);
     }
 
@@ -41,7 +42,7 @@ public class Bytes {
         return total;
     }
 
-    //TODO chunk/split. What if chunksSizes less/more than bytes length?
+    //TODO chunk/split/slice. What if chunksSizes less/more than bytes length?
 
     //TODO bytes clone, equality
     //TODO verifySignature

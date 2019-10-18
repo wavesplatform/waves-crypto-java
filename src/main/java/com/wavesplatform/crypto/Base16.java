@@ -24,8 +24,7 @@ public class Base16 {
     }
 
     public Base16(String encodedString) throws IllegalArgumentException {
-        if (encodedString == null)
-            throw new IllegalArgumentException("Base16 string cannot be null");
+        if (encodedString == null) throw new IllegalArgumentException("Base16 string cannot be null");
         if (encodedString.startsWith("base16:")) encodedString = encodedString.substring(7);
         if (encodedString.length() % 2 == 1)
             throw new IllegalArgumentException("Invalid base16 string \"" + encodedString + "\"");
