@@ -42,11 +42,11 @@ public class Seed {
     } // TODO copy?
 
     public byte[] bytesWithNonce() {
-        return Util.concat(Util.intToBytes(nonce()), bytes());
+        return Bytes.concat(Bytes.fromInt(nonce()), bytes());
     }
 
     public String utf8() {
-        return Util.bytesToUtf8(bytes);
+        return Bytes.toUtf8(bytes);
     }
 
     public String base58() {

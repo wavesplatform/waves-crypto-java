@@ -25,7 +25,7 @@ public class MerkleTree {
     }
 
     private byte[] proof(byte side, byte[] hash) {
-        return Util.concat(new byte[]{side, (byte) hash.length}, hash);
+        return Bytes.concat(new byte[]{side, (byte) hash.length}, hash);
     }
 
     private List<byte[]> initProofs(List<byte[]> leafsHashes) {
@@ -48,13 +48,13 @@ public class MerkleTree {
                 if (l < proofs.size()) {
                     if (n + 1 < nodes.size()) {
                         byte[] rightNode = nodes.get(n + 1);
-                        proofs.set(l, Util.concat(proofs.get(l), proof(LEFT, rightNode)));
+                        proofs.set(l, Bytes.concat(proofs.get(l), proof(LEFT, rightNode)));
                         if (r < proofs.size()) {
                             byte[] leftNode = nodes.get(n);
-                            proofs.set(r, Util.concat(proofs.get(r), proof(RIGHT, leftNode)));
+                            proofs.set(r, Bytes.concat(proofs.get(r), proof(RIGHT, leftNode)));
                         }
                     } else {
-                        proofs.set(l, Util.concat(proofs.get(l), EMPTY_PROOF));
+                        proofs.set(l, Bytes.concat(proofs.get(l), EMPTY_PROOF));
                     }
                 } else break;
             }
@@ -69,7 +69,7 @@ public class MerkleTree {
                         .values());
 
         List<byte[]> nextNodes = nodePairs.stream().map(n ->
-                fastHash(Util.concat(NODE, n.get(0), n.size() == 2 ? n.get(1) : EMPTY))
+                fastHash(Bytes.concat(NODE, n.get(0), n.size() == 2 ? n.get(1) : EMPTY))
         ).collect(toList());
 
         if (nextNodes.size() == 1)
@@ -85,7 +85,7 @@ public class MerkleTree {
     }
 
     private byte[] leafHash(byte[] source) {
-        return fastHash(Util.concat(LEAF, source));
+        return fastHash(Bytes.concat(LEAF, source));
     }
 
     public MerkleTree(List<byte[]> leafs) {

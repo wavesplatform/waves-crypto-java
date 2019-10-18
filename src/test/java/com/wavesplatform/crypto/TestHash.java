@@ -34,13 +34,13 @@ class TestHash {
 
     @Test
     void empty() {
-        assertThat(Hash.sha256(Util.emptyBytes()))
+        assertThat(Hash.sha256(Bytes.empty()))
                 .isEqualTo(Base58.decode("GKot5hBsd81kMupNCXHaqbhv3huEbxAFMLnpcX2hniwn"));
-        assertThat(Hash.blake(Util.emptyBytes()))
+        assertThat(Hash.blake(Bytes.empty()))
                 .isEqualTo(Base58.decode("xyw95Bsby3s4mt6f4FmFDnFVpQBAeJxBFNGzu2cX4dM"));
-        assertThat(Hash.keccak(Util.emptyBytes()))
+        assertThat(Hash.keccak(Bytes.empty()))
                 .isEqualTo(Base58.decode("EKDHSGbrGztomDfuiV4iqiZ6LschDJPsFiXjZ83f92Md"));
-        assertThat(Hash.secureHash(Util.emptyBytes()))
+        assertThat(Hash.secureHash(Bytes.empty()))
                 .isEqualTo(Base58.decode("DRtdYbxMg7YHw4acvDP6xQrvmsRAz3K7gSkH3xBJ5CTL"));
     }
 
