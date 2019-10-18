@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static com.wavesplatform.crypto.HashAlg.*;
+import static com.wavesplatform.crypto.rsa.HashAlg.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 

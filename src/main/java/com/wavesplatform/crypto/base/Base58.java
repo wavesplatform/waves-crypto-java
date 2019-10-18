@@ -1,4 +1,4 @@
-package com.wavesplatform.crypto;
+package com.wavesplatform.crypto.base;
 
 import java.util.Arrays;
 

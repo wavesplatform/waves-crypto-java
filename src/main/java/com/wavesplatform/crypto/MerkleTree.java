@@ -1,5 +1,7 @@
 package com.wavesplatform.crypto;
 
+import com.wavesplatform.crypto.base.Base58;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;

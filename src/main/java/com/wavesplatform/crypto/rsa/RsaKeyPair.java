@@ -1,8 +1,6 @@
 package com.wavesplatform.crypto.rsa;
 
-import com.wavesplatform.crypto.Base58;
-import com.wavesplatform.crypto.Bytes;
-import com.wavesplatform.crypto.HashAlg;
+import com.wavesplatform.crypto.base.Base58;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.KeyPair;
@@ -14,6 +12,7 @@ import java.security.spec.RSAPublicKeySpec;
 import java.util.Arrays;
 import java.util.Objects;
 
+@SuppressWarnings("WeakerAccess")
 public class RsaKeyPair {
 
     public static RsaKeyPair from(byte[] privateKeyBytes) {

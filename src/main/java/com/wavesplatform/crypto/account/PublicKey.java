@@ -1,5 +1,7 @@
-package com.wavesplatform.crypto;
+package com.wavesplatform.crypto.account;
 
+import com.wavesplatform.crypto.Hash;
+import com.wavesplatform.crypto.base.Base58;
 import org.whispersystems.curve25519.Curve25519;
 import org.whispersystems.curve25519.java.curve_sigs;
 

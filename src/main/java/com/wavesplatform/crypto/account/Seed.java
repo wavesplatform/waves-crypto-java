@@ -1,4 +1,7 @@
-package com.wavesplatform.crypto;
+package com.wavesplatform.crypto.account;
+
+import com.wavesplatform.crypto.Bytes;
+import com.wavesplatform.crypto.base.Base58;
 
 import java.util.Arrays;
 import java.util.Objects;

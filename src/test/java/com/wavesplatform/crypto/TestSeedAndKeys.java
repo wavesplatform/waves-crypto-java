@@ -1,5 +1,7 @@
 package com.wavesplatform.crypto;
 
+import com.wavesplatform.crypto.account.Seed;
+import com.wavesplatform.crypto.base.Base58;
 import org.junit.jupiter.api.Test;
 
 import static com.wavesplatform.crypto.ChainId.TESTNET;

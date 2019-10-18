@@ -1,4 +1,4 @@
-package com.wavesplatform.crypto;
+package com.wavesplatform.crypto.rsa;
 
 public enum HashAlg {
 
