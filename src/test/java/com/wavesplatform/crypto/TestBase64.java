@@ -15,8 +15,8 @@ class TestBase64 {
 
     @Test
     void encode() {
-        assertThat(Base64.encode(source)).isEqualTo(expected);
-        assertThat(new Base64(source).encoded()).isEqualTo(expected);
+        assertThat(Base64.encode(source)).isEqualTo(withTail);
+        assertThat(new Base64(source).encoded()).isEqualTo(withTail);
     }
 
     @Test
@@ -40,7 +40,7 @@ class TestBase64 {
         assertThat(Base64.encode(new byte[0])).isEqualTo("");
         assertThat(new Base64(new byte[0]).encoded()).isEqualTo("");
         assertThat(Base64.decode("")).isEqualTo(new byte[0]);
-        assertThat(new Base64("")).isEqualTo(new byte[0]);
+        assertThat(new Base64("").decoded()).isEqualTo(new byte[0]);
     }
 
 }
