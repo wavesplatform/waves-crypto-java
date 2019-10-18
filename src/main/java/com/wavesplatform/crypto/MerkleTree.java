@@ -11,6 +11,14 @@ import static java.util.stream.Collectors.toList;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class MerkleTree {
 
+    public static MerkleTree of(byte[]... leafs) {
+        return new MerkleTree(leafs);
+    }
+
+    public static MerkleTree of(List<byte[]> leafs) {
+        return new MerkleTree(leafs);
+    }
+
     private final List<byte[]> hashes;
     private final List<byte[]> proofs;
     private final byte[] root;
@@ -89,7 +97,11 @@ public class MerkleTree {
     }
 
     public MerkleTree(List<byte[]> leafs) {
-        hashes = leafs.stream().map(this::leafHash).collect(toList());
+        this(leafs.toArray(new byte[leafs.size()][]));
+    }
+
+    public MerkleTree(byte[]... leafs) {
+        hashes = Arrays.stream(leafs).map(this::leafHash).collect(toList());
         proofs = initProofs(hashes);
         root = findRoot(hashes);
     }
@@ -98,25 +110,27 @@ public class MerkleTree {
         return this.root;
     }
 
-    public Optional<byte[]> proofByLeafIndex(int i) {
-        if (i < 0 || i >= hashes.size())
-            return Optional.empty();
-        return Optional.of(proofs.get(i));
+    public byte[] proofByLeafIndex(int i) throws IllegalArgumentException {
+        if (i < 0 || i >= hashes.size()) throw new IllegalArgumentException("No leaf with index " + i);
+        return proofs.get(i);
     }
 
-    public Optional<byte[]> proofByLeafHash(byte[] hash) {
+    public byte[] proofByLeafHash(byte[] hash) throws IllegalArgumentException {
         OptionalInt index = IntStream.range(0, hashes.size())
                 .filter(i -> Arrays.equals(hash, hashes.get(i)))
                 .findFirst();
-        return index.isPresent() ? proofByLeafIndex(index.getAsInt()) : Optional.empty();
+        if (index.isPresent())
+            return proofByLeafIndex(index.getAsInt());
+        else
+            throw new IllegalArgumentException("No leaf with hash \"" + Base58.encode(hash) + "\"");
     }
 
-    public Optional<byte[]> proofByLeaf(byte[] leaf) {
+    public byte[] proofByLeaf(byte[] leaf) throws IllegalArgumentException {
         return proofByLeafHash(leafHash(leaf));
     }
 
-    public Optional<Boolean> isProofValid(byte[] proof, byte[] leafValue) {
-        return proofByLeaf(leafValue).map(bytes -> Arrays.equals(proof, bytes));
+    public boolean isProofValid(byte[] proof, byte[] leafValue) {
+        return Arrays.equals(proof, proofByLeaf(leafValue));
     }
 
 }
