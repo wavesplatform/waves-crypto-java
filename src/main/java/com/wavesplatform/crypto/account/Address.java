@@ -52,7 +52,6 @@ public class Address {
         return this.encoded;
     }
 
-    //TODO alias?? Or this is not about crypto?
     //TODO static verifyAddress/isAddress
 
     @Override
