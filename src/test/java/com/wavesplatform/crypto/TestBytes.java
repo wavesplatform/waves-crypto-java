@@ -55,7 +55,7 @@ class TestBytes {
         byte[] bytes3 = new byte[]{2, 1, 0};
 
         assertThat(Bytes.equal()).isTrue();
-        assertThat(Bytes.equal(new byte[0])).isTrue();
+        assertThat(Bytes.equal(Bytes.empty())).isTrue();
 
         assertThat(Bytes.equal(bytes, bytes.clone(), bytes2)).isTrue();
 

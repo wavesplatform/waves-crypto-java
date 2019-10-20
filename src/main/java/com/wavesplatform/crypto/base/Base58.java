@@ -1,5 +1,7 @@
 package com.wavesplatform.crypto.base;
 
+import com.wavesplatform.crypto.Bytes;
+
 import java.util.Arrays;
 
 @SuppressWarnings("WeakerAccess")
@@ -40,10 +42,10 @@ public class Base58 {
     private byte[] bytes;
     private String encoded;
 
-    //TODO wat?
     public Base58(byte[] source) {
         byte[] input = source.clone();
         if (input.length == 0) {
+            this.bytes = Bytes.empty();
             this.encoded = "";
         } else {
             // Count leading zeros.
@@ -77,9 +79,10 @@ public class Base58 {
     public Base58(String encodedString) throws IllegalArgumentException {
         if (encodedString == null) throw new IllegalArgumentException("Base58 string can't be null");
         if (encodedString.startsWith("base58:")) encodedString = encodedString.substring(7);
-        if (encodedString.length() == 0)
-            this.bytes = new byte[0];
-        else {
+        if (encodedString.length() == 0) {
+            this.bytes = Bytes.empty();
+            this.encoded = encodedString;
+        } else {
             // Convert the base58-encoded ASCII chars to a base58 byte sequence (base58 digits).
             byte[] input58 = new byte[encodedString.length()];
             for (int i = 0; i < encodedString.length(); ++i) {
@@ -110,8 +113,8 @@ public class Base58 {
             }
             // Return decoded data (including original number of leading zeros).
             this.bytes = Arrays.copyOfRange(decoded, outputStart - zeros, decoded.length);
+            this.encoded = encodedString;
         }
-        this.encoded = encodedString;
     }
 
     public String encoded() {

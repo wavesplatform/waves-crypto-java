@@ -37,7 +37,7 @@ public abstract class Bytes {
     }
 
     public static byte[] concat(final byte[]... arrays) {
-        byte[] total = new byte[0];
+        byte[] total = Bytes.empty();
         for (byte[] a : arrays) {
             byte[] joinedArray = Arrays.copyOf(total, total.length + a.length);
             System.arraycopy(a, 0, joinedArray, total.length, a.length);
@@ -46,7 +46,6 @@ public abstract class Bytes {
         return total;
     }
 
-    //TODO split/slice
     public static byte[][] chunk(byte[] source, int... chunkSizes) throws IllegalArgumentException {
         if (chunkSizes.length == 0)
             return new byte[][]{source.clone()};

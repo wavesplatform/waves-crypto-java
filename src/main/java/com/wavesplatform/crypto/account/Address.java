@@ -1,5 +1,6 @@
 package com.wavesplatform.crypto.account;
 
+import com.wavesplatform.crypto.Bytes;
 import com.wavesplatform.crypto.Hash;
 import com.wavesplatform.crypto.base.Base58;
 
@@ -12,12 +13,33 @@ public class Address {
         return new Address(publicKey, chainId);
     }
 
-    public static Address as(String encoded, byte chainId) throws IllegalArgumentException {
-        return new Address(encoded, chainId);
+    public static Address as(Base58 encoded) throws IllegalArgumentException {
+        return new Address(encoded);
     }
 
-    public static Address as(byte[] bytes, byte chainId) throws IllegalArgumentException {
-        return new Address(bytes, chainId);
+    public static Address as(byte[] bytes) throws IllegalArgumentException {
+        return new Address(bytes);
+    }
+
+    public static boolean isCorrect(Base58 encoded, byte chainId) {
+        return isCorrect(encoded.decoded(), chainId);
+    }
+
+    public static boolean isCorrect(Base58 encoded) {
+        return isCorrect(encoded.decoded());
+    }
+
+    public static boolean isCorrect(byte[] addressBytes, byte chainId) {
+        return isCorrect(addressBytes) && addressBytes[1] == chainId;
+    }
+
+    public static boolean isCorrect(byte[] addressBytes) {
+        try {
+            new Address(addressBytes);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
 
     private byte[] bytes;
@@ -34,14 +56,28 @@ public class Address {
         this.encoded = Base58.encode(this.bytes);
     }
 
-    public Address(String encoded, byte chainId) throws IllegalArgumentException {
-        this.bytes = Base58.decode(encoded); //TODO validate
-        this.encoded = encoded;
+    public Address(Base58 encoded) throws IllegalArgumentException {
+        this(encoded.decoded());
     }
 
-    public Address(byte[] addressBytes, byte chainId) throws IllegalArgumentException {
-        this.bytes = addressBytes; //TODO validate
+    public Address(byte[] addressBytes) throws IllegalArgumentException {
+        if (addressBytes.length != 26)
+            throw new IllegalArgumentException("Address has wrong length. " +
+                    "Expected: " + 26 + " bytes, actual: " + addressBytes.length + " bytes");
+        if (addressBytes[0] != 1)
+            throw new IllegalArgumentException("Address has unknown address version " + addressBytes[0]);
+
+        byte[][] parts = Bytes.chunk(addressBytes, 22, 4);
+        byte[] checkSum = Hash.secureHash(parts[0]);
+        if (!Bytes.equal(parts[1], checkSum))
+            throw new IllegalArgumentException("Address has wrong checksum");
+
+        this.bytes = addressBytes;
         this.encoded = Base58.encode(this.bytes);
+    }
+
+    public byte chainId() {
+        return this.bytes[1];
     }
 
     public byte[] bytes() {
@@ -51,8 +87,6 @@ public class Address {
     public String encoded() {
         return this.encoded;
     }
-
-    //TODO static verifyAddress/isAddress
 
     @Override
     public boolean equals(Object o) {

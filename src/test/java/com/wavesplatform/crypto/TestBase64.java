@@ -38,10 +38,10 @@ class TestBase64 {
 
     @Test
     void empty() {
-        assertThat(Base64.encode(new byte[0])).isEqualTo("");
-        assertThat(new Base64(new byte[0]).encoded()).isEqualTo("");
-        assertThat(Base64.decode("")).isEqualTo(new byte[0]);
-        assertThat(new Base64("").decoded()).isEqualTo(new byte[0]);
+        assertThat(Base64.encode(Bytes.empty())).isEqualTo("");
+        assertThat(new Base64(Bytes.empty()).encoded()).isEqualTo("");
+        assertThat(Base64.decode("")).isEqualTo(Bytes.empty());
+        assertThat(new Base64("").decoded()).isEqualTo(Bytes.empty());
     }
 
 }
