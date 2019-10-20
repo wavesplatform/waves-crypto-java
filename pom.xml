@@ -6,10 +6,10 @@
 
     <groupId>com.wavesplatform</groupId>
     <artifactId>java-lib-crypto</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
 
     <name>java-lib-crypto</name>
-    <description>TODO</description>
+    <description><!-- TODO --></description>
     <url>https://github.com/wavesplatform/java-lib-crypto</url>
 
     <issueManagement>
@@ -29,6 +29,8 @@
             <email>msmolyakov@web3tech.ru</email>
         </developer>
     </developers>
+
+    <!-- TODO properties UTF-8 -->
 
     <build>
         <plugins>
@@ -51,6 +53,7 @@
 
     <dependencies>
         <!-- crypto -->
+        <!-- TODO remove? Do no-deps library? -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>
