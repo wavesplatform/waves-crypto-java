@@ -23,7 +23,7 @@ class TestSeedAndKeys {
         assertThat(seed.nonce()).isEqualTo(0);
         assertThat(seed.privateKey().base58()).isEqualTo(privateKey);
         assertThat(seed.publicKey().base58()).isEqualTo(publicKey);
-        assertThat(Base58.encode(seed.privateKey().address(TESTNET))).isEqualTo(address);
+        assertThat(seed.privateKey().address(TESTNET).encoded()).isEqualTo(address);
     }
 
 }

@@ -65,7 +65,7 @@ public class PrivateKey {
         return this.publicKey;
     }
 
-    public byte[] address(byte chainId) { //TODO ChainId?
+    public Address address(byte chainId) {
         return this.publicKey().address(chainId);
     }
 

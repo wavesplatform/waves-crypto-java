@@ -96,7 +96,7 @@ public class Seed {
         return this.privateKey().publicKey();
     }
 
-    public byte[] address(byte chainId) { //TODO Address, ChainId
+    public Address address(byte chainId) {
         return this.privateKey().address(chainId);
     }
 

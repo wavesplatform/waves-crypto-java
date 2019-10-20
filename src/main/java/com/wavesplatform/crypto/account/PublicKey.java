@@ -55,13 +55,8 @@ public class PublicKey {
         return this.encoded;
     }
 
-    public byte[] address(byte chainId) { //TODO Address(publicKey, chainId)? ChainId?
-        ByteBuffer buf = ByteBuffer.allocate(26);
-        byte[] hash = Hash.secureHash(bytes);
-        buf.put((byte) 1).put(chainId).put(hash, 0, 20);
-        byte[] checksum = Hash.secureHash(Arrays.copyOfRange(buf.array(), 0 , 22));
-        buf.put(checksum, 0, 4);
-        return buf.array();
+    public Address address(byte chainId) {
+        return Address.from(this, chainId);
     }
 
     public boolean isSignatureValid(byte[] message, byte[] signature) throws IllegalArgumentException {
