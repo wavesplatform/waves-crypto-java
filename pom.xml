@@ -4,23 +4,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.wavesplatform</groupId>
+    <groupId>im.mak</groupId>
     <artifactId>java-lib-crypto</artifactId>
     <version>0.1</version>
 
     <name>java-lib-crypto</name>
     <description><!-- TODO --></description>
-    <url>https://github.com/wavesplatform/java-lib-crypto</url>
+    <url>https://github.com/msmolyakov/java-lib-crypto</url>
 
     <issueManagement>
-        <url>https://github.com/wavesplatform/java-lib-crypto/issues</url>
+        <url>https://github.com/msmolyakov/java-lib-crypto/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
 
     <scm>
-        <url>https://github.com/wavesplatform/java-lib-crypto</url>
-        <connection>scm:git:git://github.com/wavesplatform/java-lib-crypto.git</connection>
-        <developerConnection>scm:git:git@github.com:wavesplatform/java-lib-crypto.git</developerConnection>
+        <url>https://github.com/msmolyakov/java-lib-crypto</url>
+        <connection>scm:git:git://github.com/msmolyakov/java-lib-crypto.git</connection>
+        <developerConnection>scm:git:git@github.com:msmolyakov/java-lib-crypto.git</developerConnection>
     </scm>
 
     <developers>
@@ -30,7 +30,10 @@
         </developer>
     </developers>
 
-    <!-- TODO properties UTF-8 -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
 
     <build>
         <plugins>
@@ -53,7 +56,6 @@
 
     <dependencies>
         <!-- crypto -->
-        <!-- TODO remove? Do no-deps library? -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>

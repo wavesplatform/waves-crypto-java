@@ -7,6 +7,7 @@ import com.wavesplatform.crypto.base.Base58;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Address {
 
     public static Address from(PublicKey publicKey, byte chainId) {

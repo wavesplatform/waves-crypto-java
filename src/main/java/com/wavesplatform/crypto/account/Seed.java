@@ -3,6 +3,8 @@ package com.wavesplatform.crypto.account;
 import com.wavesplatform.crypto.Bytes;
 import com.wavesplatform.crypto.base.Base58;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -30,7 +32,7 @@ public class Seed {
     }
 
     public static Seed random(int nonce) {
-        return Seed.from("", 0); //TODO readable pseudo words
+        return randomBytes(nonce); //TODO readable pseudo words
     }
 
     public static Seed randomBytes() {
@@ -38,10 +40,14 @@ public class Seed {
     }
 
     public static Seed randomBytes(int nonce) {
-        return Seed.from("", 0); //TODO
+        byte[] bytes = new byte[120];
+        try {
+            SecureRandom.getInstanceStrong().nextBytes(bytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Failed to get random number generator", e);
+        }
+        return Seed.from(bytes, 0);
     }
-
-    //TODO wallet encrypt/decrypt + secure memory for seed/wallet/privateKey
 
     private final byte[] bytes;
     private int nonce;
@@ -86,7 +92,6 @@ public class Seed {
         return this.encoded;
     }
 
-    //TODO keys(nonce) from array of nonces?
     public PrivateKey privateKey() {
         if (this.privateKey == null) this.privateKey = PrivateKey.from(this);
         return this.privateKey;
