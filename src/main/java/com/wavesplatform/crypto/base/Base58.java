@@ -149,4 +149,22 @@ public class Base58 {
         return (byte) remainder;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Base58 base58 = (Base58) o;
+        return Arrays.equals(bytes, base58.bytes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(bytes);
+    }
+
+    @Override
+    public String toString() {
+        return this.encoded();
+    }
+
 }

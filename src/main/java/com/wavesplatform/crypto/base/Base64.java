@@ -1,5 +1,7 @@
 package com.wavesplatform.crypto.base;
 
+import java.util.Arrays;
+
 @SuppressWarnings("WeakerAccess")
 public class Base64 {
 
@@ -32,6 +34,24 @@ public class Base64 {
 
     public byte[] decoded() {
         return this.bytes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Base64 base64 = (Base64) o;
+        return Arrays.equals(bytes, base64.bytes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(bytes);
+    }
+
+    @Override
+    public String toString() {
+        return this.encoded();
     }
 
 }
