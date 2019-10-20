@@ -6,7 +6,7 @@ import org.bouncycastle.crypto.digests.KeccakDigest;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 
 @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"})
-public class Hash {
+public abstract class Hash {
 
     private static final ThreadLocal<Digest> BLAKE2B256 = new ThreadLocal<>();
     private static final ThreadLocal<Digest> KECCAK256 = new ThreadLocal<>();
