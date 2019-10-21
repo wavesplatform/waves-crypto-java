@@ -7,6 +7,18 @@ import java.util.Arrays;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class Bytes {
 
+    /**
+     *
+     * @return
+     */
+    public static byte[] empty() {
+        return new byte[0];
+    }
+
+    public static boolean empty(byte[]... arrays) {
+        return Arrays.stream(arrays).allMatch(a -> a.length == 0);
+    }
+
     public static byte[] fromInt(int number) {
         ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
         buffer.putInt(number);
@@ -26,14 +38,6 @@ public abstract class Bytes {
     public static byte[] fromUtf8(String string) throws IllegalArgumentException {
         if (string == null) throw new IllegalArgumentException("String can't be null");
         return string.getBytes(StandardCharsets.UTF_8);
-    }
-
-    public static byte[] empty() {
-        return new byte[0];
-    }
-
-    public static boolean empty(byte[]... arrays) {
-        return Arrays.stream(arrays).allMatch(a -> a.length == 0);
     }
 
     public static byte[] concat(final byte[]... arrays) {

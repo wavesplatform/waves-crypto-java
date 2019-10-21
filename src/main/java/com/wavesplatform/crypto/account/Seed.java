@@ -32,7 +32,7 @@ public class Seed {
     }
 
     public static Seed random(int nonce) {
-        return randomBytes(nonce); //TODO readable pseudo words
+        return randomBytes(nonce);
     }
 
     public static Seed randomBytes() {

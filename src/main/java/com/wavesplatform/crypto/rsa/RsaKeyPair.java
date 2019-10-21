@@ -113,6 +113,4 @@ public class RsaKeyPair {
                 '}';
     }
 
-    //TODO encrypt/decrypt + via pubKey
-
 }

@@ -71,6 +71,4 @@ public class RsaPublicKey {
         return Base58.encode(this.bytes());
     }
 
-//TODO encrypt via publicKey
-
 }
