@@ -5,6 +5,11 @@ import org.bouncycastle.crypto.digests.Blake2bDigest;
 import org.bouncycastle.crypto.digests.KeccakDigest;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 
+/**
+ * This class contains static methods to get cryptographic hashes.
+ *
+ * Supports all algorithms used in the Waves blockchain protocol.
+ */
 @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"})
 public abstract class Hash {
 
@@ -12,18 +17,38 @@ public abstract class Hash {
     private static final ThreadLocal<Digest> KECCAK256 = new ThreadLocal<>();
     private static final ThreadLocal<Digest> SHA256 = new ThreadLocal<>();
 
+    /**
+     * Calculates Sha256 hash of source bytes.
+     * @param source byte array
+     * @return Sha256 hash
+     */
     public static byte[] sha256(byte[] source) {
         return hash(source, 0, source.length, Hash.SHA256);
     }
 
+    /**
+     * Calculates Blake2b256 hash of source bytes.
+     * @param source byte array
+     * @return Blake2b256 hash
+     */
     public static byte[] blake(byte[] source) {
         return hash(source, 0, source.length, Hash.BLAKE2B256);
     }
 
+    /**
+     * Calculates Keccak256 hash of source bytes.
+     * @param source byte array
+     * @return Keccak256 hash
+     */
     public static byte[] keccak(byte[] source) {
         return hash(source, 0, source.length, Hash.KECCAK256);
     }
 
+    /**
+     * Calculates secure hash of source bytes.
+     * @param source byte array
+     * @return Keccak256(Blake2b256) hash
+     */
     public static byte[] secureHash(byte[] source) {
         return keccak(blake(source));
     }

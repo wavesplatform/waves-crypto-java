@@ -1,5 +1,8 @@
 package com.wavesplatform.crypto;
 
+/**
+ * This class defines constants with chain ids of official Waves networks.
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class ChainId {
 
