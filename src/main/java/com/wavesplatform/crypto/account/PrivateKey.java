@@ -77,7 +77,6 @@ public class PrivateKey {
     /**
      * Create private key instance from its bytes
      * @param privateKeyBytes private key bytes
-     * @return private key instance
      * @throws IllegalArgumentException if the length of the byte array is different than expected
      */
     public PrivateKey(byte[] privateKeyBytes) throws IllegalArgumentException {

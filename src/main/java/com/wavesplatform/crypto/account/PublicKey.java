@@ -70,7 +70,6 @@ public class PublicKey {
     /**
      * Create public key instance from its bytes
      * @param publicKeyBytes public key bytes
-     * @return public key instance
      * @throws IllegalArgumentException if the length of the byte array is different than expected
      */
     public PublicKey(byte[] publicKeyBytes) throws IllegalArgumentException {
