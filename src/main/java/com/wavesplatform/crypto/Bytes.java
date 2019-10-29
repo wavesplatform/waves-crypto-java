@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 /**
- * This class contains static methods to work with byte arrays.
+ * Contains static methods to work with byte arrays.
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class Bytes {

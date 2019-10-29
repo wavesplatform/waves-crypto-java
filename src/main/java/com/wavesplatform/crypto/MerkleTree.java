@@ -10,13 +10,26 @@ import static java.lang.Math.*;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Immutable Merkle tree on blake2b256 hashes, that is supported in the Ride programming language.
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class MerkleTree {
 
+    /**
+     * Create Merkle tree of provided leafs
+     * @param leafs leafs as arrays of bytes
+     * @return Merkle tree
+     */
     public static MerkleTree of(byte[]... leafs) {
         return new MerkleTree(leafs);
     }
 
+    /**
+     * Create Merkle tree of provided leafs
+     * @param leafs leafs as arrays of bytes
+     * @return Merkle tree
+     */
     public static MerkleTree of(List<byte[]> leafs) {
         return new MerkleTree(leafs);
     }
@@ -29,6 +42,80 @@ public class MerkleTree {
     private byte[] LEAF = new byte[]{0}, NODE = new byte[]{1};
     private byte[] EMPTY = new byte[]{};
     private byte[] EMPTY_PROOF = new byte[]{LEFT, 0};
+
+    /**
+     * Create Merkle tree of provided leafs
+     * @param leafs leafs as arrays of bytes
+     * @return Merkle tree
+     */
+    public MerkleTree(byte[]... leafs) {
+        hashes = Arrays.stream(leafs).map(this::leafHash).collect(toList());
+        proofs = initProofs(hashes);
+        root = findRoot(hashes);
+    }
+
+    /**
+     * Create Merkle tree of provided leafs
+     * @param leafs leafs as arrays of bytes
+     * @return Merkle tree
+     */
+    public MerkleTree(List<byte[]> leafs) {
+        this(leafs.toArray(new byte[leafs.size()][]));
+    }
+
+    /**
+     * Get root hash of the tree
+     * @return root hash
+     */
+    public byte[] rootHash() {
+        return this.root.clone();
+    }
+
+    /**
+     * Get a proof for a leaf with specified index
+     * @param index leaf index
+     * @return leaf proof
+     */
+    public byte[] proofByLeafIndex(int index) throws IllegalArgumentException {
+        if (index < 0 || index >= hashes.size()) throw new IllegalArgumentException("No leaf with index " + index);
+        return proofs.get(index).clone();
+    }
+
+    /**
+     * Get a proof for a leaf with specified hash
+     * @param hash leaf blake2b256 hash
+     * @return leaf proof
+     * @throws IllegalArgumentException
+     */
+    public byte[] proofByLeafHash(byte[] hash) throws IllegalArgumentException {
+        OptionalInt index = IntStream.range(0, hashes.size())
+                .filter(i -> Arrays.equals(hash, hashes.get(i)))
+                .findFirst();
+        if (index.isPresent())
+            return proofByLeafIndex(index.getAsInt());
+        else
+            throw new IllegalArgumentException("No leaf with hash \"" + Base58.encode(hash) + "\"");
+    }
+
+    /**
+     * Get a proof for a leaf
+     * @param leaf leaf bytes
+     * @return leaf proof
+     * @throws IllegalArgumentException
+     */
+    public byte[] proofByLeaf(byte[] leaf) throws IllegalArgumentException {
+        return proofByLeafHash(leafHash(leaf));
+    }
+
+    /**
+     * Checks that proof of a leaf is valid
+     * @param proof proof
+     * @param leafValue leaf bytes
+     * @return true if the proof is valid for the specified leaf
+     */
+    public boolean isProofValid(byte[] proof, byte[] leafValue) {
+        return Arrays.equals(proof, proofByLeaf(leafValue));
+    }
 
     private int sizeWithEmpty(List list) {
         return max((int) pow(2, ceil(log(list.size()) / log(2))), 2);
@@ -96,43 +183,6 @@ public class MerkleTree {
 
     private byte[] leafHash(byte[] source) {
         return fastHash(Bytes.concat(LEAF, source));
-    }
-
-    public MerkleTree(List<byte[]> leafs) {
-        this(leafs.toArray(new byte[leafs.size()][]));
-    }
-
-    public MerkleTree(byte[]... leafs) {
-        hashes = Arrays.stream(leafs).map(this::leafHash).collect(toList());
-        proofs = initProofs(hashes);
-        root = findRoot(hashes);
-    }
-
-    public byte[] rootHash() {
-        return this.root;
-    }
-
-    public byte[] proofByLeafIndex(int i) throws IllegalArgumentException {
-        if (i < 0 || i >= hashes.size()) throw new IllegalArgumentException("No leaf with index " + i);
-        return proofs.get(i);
-    }
-
-    public byte[] proofByLeafHash(byte[] hash) throws IllegalArgumentException {
-        OptionalInt index = IntStream.range(0, hashes.size())
-                .filter(i -> Arrays.equals(hash, hashes.get(i)))
-                .findFirst();
-        if (index.isPresent())
-            return proofByLeafIndex(index.getAsInt());
-        else
-            throw new IllegalArgumentException("No leaf with hash \"" + Base58.encode(hash) + "\"");
-    }
-
-    public byte[] proofByLeaf(byte[] leaf) throws IllegalArgumentException {
-        return proofByLeafHash(leafHash(leaf));
-    }
-
-    public boolean isProofValid(byte[] proof, byte[] leafValue) {
-        return Arrays.equals(proof, proofByLeaf(leafValue));
     }
 
 }

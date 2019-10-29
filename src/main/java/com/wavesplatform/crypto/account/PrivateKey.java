@@ -6,20 +6,40 @@ import org.whispersystems.curve25519.Curve25519;
 
 import java.util.Arrays;
 
+/**
+ * Private key is used to sign any data.
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class PrivateKey {
 
     public static final int LENGTH = 32;
 
+    /**
+     * Generate private key from the seed
+     * @param seed seed instance
+     * @return private key instance
+     */
     public static PrivateKey from(Seed seed) {
         return new PrivateKey(seed);
     }
 
+    /**
+     * Create private key instance from its base58 representation
+     * @param base58Encoded private key bytes as base58-encoded string
+     * @return private key instance
+     * @throws IllegalArgumentException if base58 string is null
+     */
     public static PrivateKey as(String base58Encoded) throws IllegalArgumentException {
         return new PrivateKey(base58Encoded);
     }
 
-    public static PrivateKey as(byte[] bytes) {
+    /**
+     * Create private key instance from its bytes
+     * @param bytes private key bytes
+     * @return private key instance
+     * @throws IllegalArgumentException if the length of the byte array is different than expected
+     */
+    public static PrivateKey as(byte[] bytes) throws IllegalArgumentException {
         return new PrivateKey(bytes);
     }
 
@@ -29,6 +49,10 @@ public class PrivateKey {
     private String encoded;
     private PublicKey publicKey;
 
+    /**
+     * Generate private key from the seed
+     * @param seed seed instance
+     */
     public PrivateKey(Seed seed) {
         // account seed from seed & nonce
         byte[] accountSeed = Hash.secureHash(seed.bytesWithNonce());
@@ -41,38 +65,80 @@ public class PrivateKey {
         this.bytes[31] |= 64;
     }
 
+    /**
+     * Create private key instance from its base58 representation
+     * @param base58Encoded private key bytes as base58-encoded string
+     * @throws IllegalArgumentException if base58 string is null
+     */
     public PrivateKey(String base58Encoded) throws IllegalArgumentException {
         this(Base58.decode(base58Encoded));
     }
 
+    /**
+     * Create private key instance from its bytes
+     * @param privateKeyBytes private key bytes
+     * @return private key instance
+     * @throws IllegalArgumentException if the length of the byte array is different than expected
+     */
     public PrivateKey(byte[] privateKeyBytes) throws IllegalArgumentException {
         if (privateKeyBytes.length != LENGTH) throw new IllegalArgumentException("Private key has wrong size in bytes. "
                 + "Expected: " + LENGTH + ", actual: " + privateKeyBytes.length);
         this.bytes = privateKeyBytes.clone();
     }
 
+    /**
+     * Get bytes of the private key
+     * @return bytes of the private key
+     */
     public byte[] bytes() {
         return this.bytes.clone();
     }
 
+    /**
+     * Get the private key as base58-encoded string
+     * @return the private key as base58-encoded string
+     */
     public String base58() {
         if (this.encoded == null) this.encoded = Base58.encode(bytes);
         return this.encoded;
     }
 
+    /**
+     * Get a public key generated from the private key
+     * @return generated public key
+     */
     public PublicKey publicKey() {
         if (this.publicKey == null) this.publicKey = PublicKey.from(this);
         return this.publicKey;
     }
 
+    /**
+     * Get an address generated from the public key of this private key.
+     * Depends on the Id of a particular blockchain network.
+     * @param chainId blockchain network Id.
+     * @return address
+     * @see com.wavesplatform.crypto.ChainId
+     */
     public Address address(byte chainId) {
         return this.publicKey().address(chainId);
     }
 
+    /**
+     * Sign the message with the private key
+     * @param message message bytes
+     * @return signature proof
+     */
     public byte[] sign(byte[] message) {
         return cipher.calculateSignature(this.bytes, message);
     }
 
+    /**
+     * Check if the message is actually signed by the private key
+     * @param message message bytes
+     * @param signature signature proof
+     * @return true if the proof is valid
+     * @throws IllegalArgumentException if signature length is different from expected
+     */
     public boolean isSignatureValid(byte[] message, byte[] signature) throws IllegalArgumentException {
         return this.publicKey().isSignatureValid(message, signature);
     }

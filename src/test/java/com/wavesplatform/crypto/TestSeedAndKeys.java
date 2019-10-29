@@ -1,7 +1,6 @@
 package com.wavesplatform.crypto;
 
 import com.wavesplatform.crypto.account.Seed;
-import com.wavesplatform.crypto.base.Base58;
 import org.junit.jupiter.api.Test;
 
 import static com.wavesplatform.crypto.ChainId.TESTNET;
@@ -23,7 +22,7 @@ class TestSeedAndKeys {
         assertThat(seed.nonce()).isEqualTo(0);
         assertThat(seed.privateKey().base58()).isEqualTo(privateKey);
         assertThat(seed.publicKey().base58()).isEqualTo(publicKey);
-        assertThat(seed.privateKey().address(TESTNET).encoded()).isEqualTo(address);
+        assertThat(seed.privateKey().address(TESTNET).base58()).isEqualTo(address);
     }
 
 }

@@ -7,33 +7,77 @@ import com.wavesplatform.crypto.base.Base58;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+/**
+ * Address is used as recipient of transactions.
+ */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Address {
 
+    /**
+     * Generate an address from the public key.
+     * Depends on the Id of a particular blockchain network.
+     * @param chainId blockchain network Id.
+     * @return address
+     * @see com.wavesplatform.crypto.ChainId
+     */
     public static Address from(PublicKey publicKey, byte chainId) {
         return new Address(publicKey, chainId);
     }
 
-    public static Address as(Base58 encoded) throws IllegalArgumentException {
-        return new Address(encoded);
+    /**
+     * Create address instance from its base58 representation
+     * @param base58Encoded address bytes as base58-encoded string
+     * @return address instance
+     * @throws IllegalArgumentException if base58 string is null
+     */
+    public static Address as(Base58 base58Encoded) throws IllegalArgumentException {
+        return new Address(base58Encoded);
     }
 
+    /**
+     * Create address instance from its bytes
+     * @param bytes address bytes
+     * @return address instance
+     * @throws IllegalArgumentException if the address is wrong
+     */
     public static Address as(byte[] bytes) throws IllegalArgumentException {
         return new Address(bytes);
     }
 
-    public static boolean isCorrect(Base58 encoded, byte chainId) {
-        return isCorrect(encoded.decoded(), chainId);
+    /**
+     * Check if the address is correct for specified Waves network
+     * @param encodedAddress address as base58-encoded string
+     * @param chainId blockchain network Id
+     * @return true if the address is correct
+     */
+    public static boolean isCorrect(Base58 encodedAddress, byte chainId) {
+        return isCorrect(encodedAddress.decoded(), chainId);
     }
 
-    public static boolean isCorrect(Base58 encoded) {
-        return isCorrect(encoded.decoded());
+    /**
+     * Check if the address is correct for any Waves network
+     * @param encodedAddress address as base58-encoded string
+     * @return true if the address is correct
+     */
+    public static boolean isCorrect(Base58 encodedAddress) {
+        return isCorrect(encodedAddress.decoded());
     }
 
+    /**
+     * Check if the address is correct for specified Waves network
+     * @param addressBytes address bytes
+     * @param chainId blockchain network Id
+     * @return true if the address is correct
+     */
     public static boolean isCorrect(byte[] addressBytes, byte chainId) {
         return isCorrect(addressBytes) && addressBytes[1] == chainId;
     }
 
+    /**
+     * Check if the address is correct for any Waves network
+     * @param addressBytes address bytes
+     * @return true if the address is correct
+     */
     public static boolean isCorrect(byte[] addressBytes) {
         try {
             new Address(addressBytes);
@@ -46,6 +90,12 @@ public class Address {
     private byte[] bytes;
     private String encoded;
 
+    /**
+     * Generate an address from the public key.
+     * Depends on the Id of a particular blockchain network.
+     * @param chainId blockchain network Id.
+     * @see com.wavesplatform.crypto.ChainId
+     */
     public Address(PublicKey publicKey, byte chainId) {
         ByteBuffer buf = ByteBuffer.allocate(26);
         byte[] hash = Hash.secureHash(publicKey.bytes());
@@ -57,10 +107,20 @@ public class Address {
         this.encoded = Base58.encode(this.bytes);
     }
 
-    public Address(Base58 encoded) throws IllegalArgumentException {
-        this(encoded.decoded());
+    /**
+     * Create address instance from its base58 representation
+     * @param encodedAddress address bytes as base58-encoded string
+     * @throws IllegalArgumentException if base58 string is null
+     */
+    public Address(Base58 encodedAddress) throws IllegalArgumentException {
+        this(encodedAddress.decoded());
     }
 
+    /**
+     * Create address instance from its bytes
+     * @param addressBytes address bytes
+     * @throws IllegalArgumentException if the address is wrong
+     */
     public Address(byte[] addressBytes) throws IllegalArgumentException {
         if (addressBytes.length != 26)
             throw new IllegalArgumentException("Address has wrong length. " +
@@ -77,15 +137,27 @@ public class Address {
         this.encoded = Base58.encode(this.bytes);
     }
 
+    /**
+     * Get blockchain network id of the address
+     * @return network id
+     */
     public byte chainId() {
         return this.bytes[1];
     }
 
+    /**
+     * Get bytes of the address
+     * @return bytes of the address
+     */
     public byte[] bytes() {
         return this.bytes;
     }
 
-    public String encoded() {
+    /**
+     * Get the address as base58-encoded string
+     * @return the address as base58-encoded string
+     */
+    public String base58() {
         return this.encoded;
     }
 
@@ -104,7 +176,7 @@ public class Address {
 
     @Override
     public String toString() {
-        return this.encoded();
+        return this.base58();
     }
 
 }

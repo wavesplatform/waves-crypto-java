@@ -1,28 +1,46 @@
 package com.wavesplatform.crypto.account;
 
-import com.wavesplatform.crypto.Hash;
 import com.wavesplatform.crypto.base.Base58;
 import org.whispersystems.curve25519.Curve25519;
 import org.whispersystems.curve25519.java.curve_sigs;
 
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+/**
+ * Public key is used as sender of transactions and orders.
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class PublicKey {
 
     public static final int LENGTH = 32;
     public static final int SIGNATURE_LENGTH = 64;
 
+    /**
+     * Generate public key from the private key
+     * @param privateKey public key
+     * @return public key instance
+     */
     public static PublicKey from(PrivateKey privateKey) {
         return new PublicKey(privateKey);
     }
 
+    /**
+     * Create public key instance from its base58 representation
+     * @param base58Encoded public key bytes as base58-encoded string
+     * @return public key instance
+     * @throws IllegalArgumentException if base58 string is null
+     */
     public static PublicKey as(String base58Encoded) throws IllegalArgumentException {
         return new PublicKey(base58Encoded);
     }
 
-    public static PublicKey as(byte[] bytes) {
+    /**
+     * Create public key instance from its bytes
+     * @param bytes public key bytes
+     * @return public key instance
+     * @throws IllegalArgumentException if the length of the byte array is different than expected
+     */
+    public static PublicKey as(byte[] bytes) throws IllegalArgumentException {
         return new PublicKey(bytes);
     }
 
@@ -31,34 +49,71 @@ public class PublicKey {
     private final byte[] bytes;
     private String encoded;
 
+    /**
+     * Generate public key from the private key
+     * @param privateKey public key
+     */
     public PublicKey(PrivateKey privateKey) {
         this.bytes = new byte[LENGTH];
         curve_sigs.curve25519_keygen(this.bytes, privateKey.bytes());
     }
 
+    /**
+     * Create public key instance from its base58 representation
+     * @param base58Encoded public key bytes as base58-encoded string
+     * @throws IllegalArgumentException if base58 string is null
+     */
     public PublicKey(String base58Encoded) throws IllegalArgumentException {
         this(Base58.decode(base58Encoded));
     }
 
+    /**
+     * Create public key instance from its bytes
+     * @param publicKeyBytes public key bytes
+     * @return public key instance
+     * @throws IllegalArgumentException if the length of the byte array is different than expected
+     */
     public PublicKey(byte[] publicKeyBytes) throws IllegalArgumentException {
         if (publicKeyBytes.length != LENGTH) throw new IllegalArgumentException("Public key has wrong size in bytes. "
                 + "Expected: " + LENGTH + ", actual: " + publicKeyBytes.length);
         this.bytes = publicKeyBytes.clone();
     }
 
+    /**
+     * Get bytes of the public key
+     * @return bytes of the public key
+     */
     public byte[] bytes() {
         return this.bytes.clone();
     }
 
+    /**
+     * Get the public key as base58-encoded string
+     * @return the public key as base58-encoded string
+     */
     public String base58() {
         if (this.encoded == null) this.encoded = Base58.encode(bytes);
         return this.encoded;
     }
 
+    /**
+     * Get an address generated from the public key.
+     * Depends on the Id of a particular blockchain network.
+     * @param chainId blockchain network Id.
+     * @return address
+     * @see com.wavesplatform.crypto.ChainId
+     */
     public Address address(byte chainId) {
         return Address.from(this, chainId);
     }
 
+    /**
+     * Check if the message is actually signed by the private key of this public key
+     * @param message message bytes
+     * @param signature signature proof
+     * @return true if the proof is valid
+     * @throws IllegalArgumentException if signature length is different from expected
+     */
     public boolean isSignatureValid(byte[] message, byte[] signature) throws IllegalArgumentException {
         if (signature.length != SIGNATURE_LENGTH)
             throw new IllegalArgumentException("Signature has wrong size in bytes. "

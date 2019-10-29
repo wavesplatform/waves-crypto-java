@@ -6,7 +6,7 @@ import org.bouncycastle.crypto.digests.KeccakDigest;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 
 /**
- * This class contains static methods to get cryptographic hashes.
+ * Contains static methods to get cryptographic hashes.
  *
  * Supports all algorithms used in the Waves blockchain protocol.
  */
