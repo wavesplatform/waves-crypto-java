@@ -1,5 +1,8 @@
 package com.wavesplatform.crypto.rsa;
 
+/**
+ * Contains names of all hashing algorithms for RSA signatures supported in Ride language.
+ */
 public enum HashAlg {
 
     NOALG("NONE"),

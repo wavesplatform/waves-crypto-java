@@ -16,6 +16,7 @@ public class Address {
     /**
      * Generate an address from the public key.
      * Depends on the Id of a particular blockchain network.
+     *
      * @param chainId blockchain network Id.
      * @return address
      * @see com.wavesplatform.crypto.ChainId
@@ -25,7 +26,8 @@ public class Address {
     }
 
     /**
-     * Create address instance from its base58 representation
+     * Create address instance from its base58 representation.
+     *
      * @param base58Encoded address bytes as base58-encoded string
      * @return address instance
      * @throws IllegalArgumentException if base58 string is null
@@ -35,7 +37,8 @@ public class Address {
     }
 
     /**
-     * Create address instance from its bytes
+     * Create address instance from its bytes.
+     *
      * @param bytes address bytes
      * @return address instance
      * @throws IllegalArgumentException if the address is wrong
@@ -45,7 +48,8 @@ public class Address {
     }
 
     /**
-     * Check if the address is correct for specified Waves network
+     * Check if the address is correct for specified Waves network.
+     *
      * @param encodedAddress address as base58-encoded string
      * @param chainId blockchain network Id
      * @return true if the address is correct
@@ -55,7 +59,8 @@ public class Address {
     }
 
     /**
-     * Check if the address is correct for any Waves network
+     * Check if the address is correct for any Waves network.
+     *
      * @param encodedAddress address as base58-encoded string
      * @return true if the address is correct
      */
@@ -64,7 +69,8 @@ public class Address {
     }
 
     /**
-     * Check if the address is correct for specified Waves network
+     * Check if the address is correct for specified Waves network.
+     *
      * @param addressBytes address bytes
      * @param chainId blockchain network Id
      * @return true if the address is correct
@@ -74,7 +80,8 @@ public class Address {
     }
 
     /**
-     * Check if the address is correct for any Waves network
+     * Check if the address is correct for any Waves network.
+     *
      * @param addressBytes address bytes
      * @return true if the address is correct
      */
@@ -93,6 +100,7 @@ public class Address {
     /**
      * Generate an address from the public key.
      * Depends on the Id of a particular blockchain network.
+     *
      * @param chainId blockchain network Id.
      * @see com.wavesplatform.crypto.ChainId
      */
@@ -108,7 +116,8 @@ public class Address {
     }
 
     /**
-     * Create address instance from its base58 representation
+     * Create address instance from its base58 representation.
+     *
      * @param encodedAddress address bytes as base58-encoded string
      * @throws IllegalArgumentException if base58 string is null
      */
@@ -117,7 +126,8 @@ public class Address {
     }
 
     /**
-     * Create address instance from its bytes
+     * Create address instance from its bytes.
+     *
      * @param addressBytes address bytes
      * @throws IllegalArgumentException if the address is wrong
      */
@@ -138,7 +148,8 @@ public class Address {
     }
 
     /**
-     * Get blockchain network id of the address
+     * Get blockchain network id of the address.
+     *
      * @return network id
      */
     public byte chainId() {
@@ -146,7 +157,8 @@ public class Address {
     }
 
     /**
-     * Get bytes of the address
+     * Get bytes of the address.
+     *
      * @return bytes of the address
      */
     public byte[] bytes() {
@@ -154,7 +166,8 @@ public class Address {
     }
 
     /**
-     * Get the address as base58-encoded string
+     * Get the address as base58-encoded string.
+     *
      * @return the address as base58-encoded string
      */
     public String base58() {

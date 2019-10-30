@@ -2,13 +2,30 @@ package com.wavesplatform.crypto.base;
 
 import java.util.Arrays;
 
-@SuppressWarnings("WeakerAccess")
+/**
+ * Base16 is used to represent byte arrays as a readable string.
+ *
+ * Not used in Waves blockchain, but can be used in Ride smart contracts.
+ */
 public class Base16 {
 
+    /**
+     * Encodes the given bytes as a base16 string (no checksum is appended).
+     *
+     * @param source the bytes to encode
+     * @return the base16-encoded string
+     */
     public static String encode(byte[] source) {
         return new Base16(source).encoded();
     }
 
+    /**
+     * Decodes the given base16 string into the original data bytes.
+     *
+     * @param encodedString the base16-encoded string to decode
+     * @return the decoded data bytes
+     * @throws IllegalArgumentException if the string is null or can't be parsed as base16 string
+     */
     public static byte[] decode(String encodedString) throws IllegalArgumentException {
         return new Base16(encodedString).decoded();
     }
@@ -16,6 +33,11 @@ public class Base16 {
     private byte[] bytes;
     private String encoded;
 
+    /**
+     * Create Base16 from array of bytes.
+     *
+     * @param source the bytes to encode
+     */
     public Base16(byte[] source) {
         byte[] input = source.clone();
         StringBuilder sb = new StringBuilder();
@@ -26,6 +48,12 @@ public class Base16 {
         this.bytes = input;
     }
 
+    /**
+     * Create Base16 from base16-encoded string.
+     *
+     * @param encodedString base16-encoded string
+     * @throws IllegalArgumentException if the string is null or can't be parsed as base16 string
+     */
     public Base16(String encodedString) throws IllegalArgumentException {
         if (encodedString == null) throw new IllegalArgumentException("Base16 string can't be null");
         if (encodedString.startsWith("base16:")) encodedString = encodedString.substring(7);
@@ -40,12 +68,22 @@ public class Base16 {
         this.bytes = bytes;
     }
 
-    public byte[] decoded() {
-        return this.bytes;
-    }
-
+    /**
+     * Get encoded string of the bytes.
+     *
+     * @return base16-encoded string
+     */
     public String encoded() {
         return this.encoded;
+    }
+
+    /**
+     * Get original bytes.
+     *
+     * @return decoded array of bytes
+     */
+    public byte[] decoded() {
+        return this.bytes.clone();
     }
 
     private static byte hexToByte(String hexString) {

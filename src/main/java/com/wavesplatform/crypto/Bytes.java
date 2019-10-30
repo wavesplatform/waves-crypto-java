@@ -12,6 +12,7 @@ public abstract class Bytes {
 
     /**
      * Creates an empty byte array.
+     *
      * @return new empty byte array
      */
     public static byte[] empty() {
@@ -19,7 +20,8 @@ public abstract class Bytes {
     }
 
     /**
-     * Checks that all byte arrays are empty
+     * Checks that all byte arrays are empty.
+     *
      * @param arrays byte arrays
      * @return true if all the input arrays are empty
      */
@@ -28,7 +30,8 @@ public abstract class Bytes {
     }
 
     /**
-     * Checks that all byte arrays are equal
+     * Checks that all byte arrays are equal.
+     *
      * @param compared byte arrays
      * @return true if all the input arrays are equal
      */
@@ -37,7 +40,8 @@ public abstract class Bytes {
     }
 
     /**
-     * Converts integer number to 4-byte array
+     * Converts integer number to 4-byte array.
+     *
      * @param number integer number
      * @return 4-byte array
      */
@@ -48,7 +52,8 @@ public abstract class Bytes {
     }
 
     /**
-     * Converts long number to 8-byte array
+     * Converts long number to 8-byte array.
+     *
      * @param number long number
      * @return 8-byte array
      */
@@ -59,7 +64,8 @@ public abstract class Bytes {
     }
 
     /**
-     * Converts byte array to string with UTF-8 encoding
+     * Converts byte array to string with UTF-8 encoding.
+     *
      * @param bytes byte array
      * @return string with UTF-8 encoding
      */
@@ -68,7 +74,8 @@ public abstract class Bytes {
     }
 
     /**
-     * Converts UTF-8 encoded string to byte array
+     * Converts UTF-8 encoded string to byte array.
+     *
      * @param string UTF-8 string
      * @return byte array
      * @throws IllegalArgumentException if string is null
@@ -79,7 +86,8 @@ public abstract class Bytes {
     }
 
     /**
-     * Concatenates all the byte arrays into new one array
+     * Concatenates all the byte arrays into new one array.
+     *
      * @param arrays byte arrays
      * @return array that consists of all bytes of input arrays
      */
@@ -95,8 +103,8 @@ public abstract class Bytes {
 
     /**
      * Splits byte array into multiple arrays of desired sizes.
-     *
      * If array length is greater than sum of desired chunks, it will return rest of the array as last additional chunk.
+     *
      * @param source byte array
      * @param chunkSizes desired sizes of resulting byte arrays
      * @return parts of source array

@@ -4,6 +4,11 @@ import com.wavesplatform.crypto.Bytes;
 
 import java.util.Arrays;
 
+/**
+ * Base58 is used to represent byte arrays as a readable string.
+ *
+ * Most arrays of bytes in the project are encoded by Base58 algorithm with Bitcoin alphabet to make it ease human readable.
+ */
 @SuppressWarnings("WeakerAccess")
 public class Base58 {
 
@@ -31,17 +36,22 @@ public class Base58 {
     /**
      * Decodes the given base58 string into the original data bytes.
      *
-     * @param input the base58-encoded string to decode
+     * @param source the base58-encoded string to decode
      * @return the decoded data bytes
      * @throws IllegalArgumentException if the given string is not a valid base58 string
      */
-    public static byte[] decode(String input) throws IllegalArgumentException {
-        return new Base58(input).decoded();
+    public static byte[] decode(String source) throws IllegalArgumentException {
+        return new Base58(source).decoded();
     }
 
     private byte[] bytes;
     private String encoded;
 
+    /**
+     * Create Base58 from array of bytes.
+     *
+     * @param source the bytes to encode
+     */
     public Base58(byte[] source) {
         byte[] input = source.clone();
         if (input.length == 0) {
@@ -76,6 +86,12 @@ public class Base58 {
         }
     }
 
+    /**
+     * Create Base58 from base58-encoded string.
+     *
+     * @param encodedString base58-encoded string
+     * @throws IllegalArgumentException if the string is null or can't be parsed as base58 string
+     */
     public Base58(String encodedString) throws IllegalArgumentException {
         if (encodedString == null) throw new IllegalArgumentException("Base58 string can't be null");
         if (encodedString.startsWith("base58:")) encodedString = encodedString.substring(7);
@@ -117,10 +133,20 @@ public class Base58 {
         }
     }
 
+    /**
+     * Get encoded string of the bytes.
+     *
+     * @return base58-encoded string
+     */
     public String encoded() {
         return this.encoded;
     }
 
+    /**
+     * Get original bytes.
+     *
+     * @return decoded array of bytes
+     */
     public byte[] decoded() {
         return this.bytes;
     }

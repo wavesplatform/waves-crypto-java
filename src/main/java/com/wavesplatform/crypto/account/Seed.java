@@ -9,13 +9,14 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Seed is a set of bytes that private and public keys are deterministically generated from
+ * Seed is a set of bytes that private and public keys are deterministically generated from.
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Seed {
 
     /**
-     * Create instance from seed phrase
+     * Create instance from seed phrase.
+     *
      * @param phrase seed phrase for keys generation
      * @return Seed instance
      * @throws IllegalArgumentException if phrase string is null
@@ -25,7 +26,8 @@ public class Seed {
     }
 
     /**
-     * Create instance from seed phrase and nonce
+     * Create instance from seed phrase and nonce.
+     *
      * @param phrase seed phrase for keys generation
      * @param nonce number addition to the phrase. Default is 0 (zero)
      * @return Seed instance
@@ -36,7 +38,8 @@ public class Seed {
     }
 
     /**
-     * Create instance from bytes of seed phrase
+     * Create instance from bytes of seed phrase.
+     *
      * @param phraseBytes bytes of seed phrase for keys generation
      * @return Seed instance
      */
@@ -45,7 +48,8 @@ public class Seed {
     }
 
     /**
-     * Create instance from bytes of seed phrase and nonce
+     * Create instance from bytes of seed phrase and nonce.
+     *
      * @param phraseBytes bytes of seed phrase for keys generation
      * @param nonce number addition to the phrase. Default is 0 (zero)
      * @return Seed instance
@@ -55,7 +59,8 @@ public class Seed {
     }
 
     /**
-     * Create instance from random readable seed phrase
+     * Create instance from random readable seed phrase.
+     *
      * @return Seed instance
      */
     public static Seed random() {
@@ -63,7 +68,8 @@ public class Seed {
     }
 
     /**
-     * Create instance from random readable seed phrase and nonce
+     * Create instance from random readable seed phrase and nonce.
+     *
      * @param nonce number addition to the phrase. Default is 0 (zero)
      * @return Seed instance
      */
@@ -72,7 +78,8 @@ public class Seed {
     }
 
     /**
-     * Create instance from bytes of random seed phrase
+     * Create instance from bytes of random seed phrase.
+     *
      * @return Seed instance
      */
     public static Seed randomBytes() {
@@ -80,7 +87,8 @@ public class Seed {
     }
 
     /**
-     * Create instance from bytes of random seed phrase and nonce
+     * Create instance from bytes of random seed phrase and nonce.
+     *
      * @param nonce number addition to the phrase. Default is 0 (zero)
      * @return Seed instance
      */
@@ -100,7 +108,8 @@ public class Seed {
     private PrivateKey privateKey;
 
     /**
-     * Create instance from seed phrase
+     * Create instance from seed phrase.
+     *
      * @param phrase seed phrase for keys generation
      * @throws IllegalArgumentException if phrase string is null
      */
@@ -109,7 +118,8 @@ public class Seed {
     }
 
     /**
-     * Create instance from seed phrase and nonce
+     * Create instance from seed phrase and nonce.
+     *
      * @param phrase seed phrase for keys generation
      * @param nonce number addition to the phrase. Default is 0 (zero)
      * @throws IllegalArgumentException if phrase string is null
@@ -119,7 +129,8 @@ public class Seed {
     }
 
     /**
-     * Create instance from bytes of seed phrase
+     * Create instance from bytes of seed phrase.
+     *
      * @param phraseBytes bytes of seed phrase for keys generation
      */
     public Seed(byte[] phraseBytes) {
@@ -127,7 +138,8 @@ public class Seed {
     }
 
     /**
-     * Create instance from bytes of seed phrase and nonce
+     * Create instance from bytes of seed phrase and nonce.
+     *
      * @param phraseBytes bytes of seed phrase for keys generation
      * @param nonce number addition to the phrase. Default is 0 (zero)
      */
@@ -137,7 +149,8 @@ public class Seed {
     }
 
     /**
-     * Get bytes of the seed phrase
+     * Get bytes of the seed phrase.
+     *
      * @return bytes of the seed phrase
      */
     public byte[] bytes() {
@@ -145,7 +158,8 @@ public class Seed {
     }
 
     /**
-     * Get nonce of the seed instance
+     * Get nonce of the seed instance.
+     *
      * @return nonce of the seed
      */
     public int nonce() {
@@ -153,7 +167,8 @@ public class Seed {
     }
 
     /**
-     * Get bytes of nonce and phrase of the seed instance
+     * Get bytes of nonce and phrase of the seed instance.
+     *
      * @return bytes of nonce and phrase of the seed
      */
     public byte[] bytesWithNonce() {
@@ -161,7 +176,8 @@ public class Seed {
     }
 
     /**
-     * Get the seed phrase as UTF-8 string
+     * Get the seed phrase as UTF-8 string.
+     *
      * @return seed phrase as UTF-8 string
      */
     public String phrase() {
@@ -169,7 +185,8 @@ public class Seed {
     }
 
     /**
-     * Get the seed phrase as base58-encoded string
+     * Get the seed phrase as base58-encoded string.
+     *
      * @return the seed phrase as base58-encoded string
      */
     public String base58Phrase() {
@@ -178,7 +195,8 @@ public class Seed {
     }
 
     /**
-     * Get a private key generated from the seed
+     * Get a private key generated from the seed.
+     *
      * @return private key from the seed
      */
     public PrivateKey privateKey() {
@@ -187,7 +205,8 @@ public class Seed {
     }
 
     /**
-     * Get a public key generated from the private key of this seed
+     * Get a public key generated from the private key of this seed.
+     *
      * @return generated public key
      */
     public PublicKey publicKey() {
@@ -197,6 +216,7 @@ public class Seed {
     /**
      * Get an address generated from the public key of this seed.
      * Depends on the Id of a particular blockchain network.
+     *
      * @param chainId blockchain network Id.
      * @return address
      * @see com.wavesplatform.crypto.ChainId
@@ -206,7 +226,8 @@ public class Seed {
     }
 
     /**
-     * Sign the message with the private key of the seed
+     * Sign the message with the private key of the seed.
+     *
      * @param message message bytes
      * @return signature proof
      */
@@ -215,7 +236,8 @@ public class Seed {
     }
 
     /**
-     * Check if the message is actually signed by the private key of this seed
+     * Check if the message is actually signed by the private key of this seed.
+     *
      * @param message message bytes
      * @param signature signature proof
      * @return true if the proof is valid

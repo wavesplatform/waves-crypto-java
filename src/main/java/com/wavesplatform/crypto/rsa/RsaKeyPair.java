@@ -12,13 +12,29 @@ import java.security.spec.RSAPublicKeySpec;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Pair of RSA private and public keys to encrypt/decrypt or signing data.
+ *
+ * RSA signatures are supported in Ride language.
+ */
 @SuppressWarnings("WeakerAccess")
 public class RsaKeyPair {
 
+    /**
+     * Create key pair from the known RSA private key.
+     *
+     * @param privateKeyBytes bytes of the private key
+     * @return pair of RSA private and public keys
+     */
     public static RsaKeyPair from(byte[] privateKeyBytes) {
         return new RsaKeyPair(privateKeyBytes);
     }
 
+    /**
+     * Create pair of random RSA private and public keys.
+     *
+     * @return random RSA key pair
+     */
     public static RsaKeyPair random() {
         return new RsaKeyPair();
     }
@@ -27,7 +43,12 @@ public class RsaKeyPair {
     private final PrivateKey privateKey;
     private final PublicKey publicKey;
 
-    public RsaKeyPair(byte[] privateKeyBytes) throws IllegalArgumentException {
+    /**
+     * Create key pair from the known RSA private key.
+     *
+     * @param privateKeyBytes bytes of the private key
+     */
+    public RsaKeyPair(byte[] privateKeyBytes) {
         this.bcp = new BouncyCastleProvider();
         PKCS8EncodedKeySpec ks = new PKCS8EncodedKeySpec(privateKeyBytes);
         try {
@@ -37,10 +58,13 @@ public class RsaKeyPair {
             RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(privateCrtKey.getModulus(), privateCrtKey.getPublicExponent());
             this.publicKey = kf.generatePublic(publicKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new IllegalArgumentException(e);
+            throw new RuntimeException(e);
         }
     }
 
+    /**
+     * Create pair of random RSA private and public keys.
+     */
     public RsaKeyPair() {
         this.bcp = new BouncyCastleProvider();
 
@@ -48,7 +72,7 @@ public class RsaKeyPair {
         try {
             gen = KeyPairGenerator.getInstance("RSA");
         } catch (NoSuchAlgorithmException e) {
-            throw new Error(e);
+            throw new RuntimeException(e);
         }
         gen.initialize(2048, new SecureRandom());
 
@@ -57,25 +81,52 @@ public class RsaKeyPair {
         this.publicKey = keys.getPublic();
     }
 
+    /**
+     * Get the RSA private key.
+     *
+     * @return the private key
+     */
     public byte[] privateKey() {
         return this.privateKey.getEncoded();
     }
 
+    /**
+     * Get the RSA public key.
+     *
+     * @return the public key
+     */
     public byte[] publicKey() {
         return this.publicKey.getEncoded();
     }
 
-    public byte[] sign(HashAlg alg, byte[] source) {
+    /**
+     * Sign the message by the RSA private key with specified hashing algorithm.
+     *
+     * @param alg hashing algorithm
+     * @param message message to sign
+     * @return RSA signature
+     * @see com.wavesplatform.crypto.rsa.HashAlg
+     */
+    public byte[] sign(HashAlg alg, byte[] message) {
         try {
             Signature sig = initJSignature(alg);
             sig.initSign(this.privateKey);
-            sig.update(source);
+            sig.update(message);
             return sig.sign();
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
-            throw new Error(e);
+            throw new RuntimeException(e);
         }
     }
 
+    /**
+     * Check if the message is actually signed by the RSA private key with the specified hashing algorithm.
+     *
+     * @param alg hashing algorithm
+     * @param message message bytes
+     * @param proof signature proof
+     * @return true if the proof is valid
+     * @see com.wavesplatform.crypto.rsa.HashAlg
+     */
     public boolean isSignatureValid(HashAlg alg, byte[] message, byte[] proof) {
         try {
             Signature sig = initJSignature(alg);
@@ -83,7 +134,7 @@ public class RsaKeyPair {
             sig.update(message);
             return sig.verify(proof);
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
-            throw new Error(e);
+            throw new RuntimeException(e);
         }
     }
 

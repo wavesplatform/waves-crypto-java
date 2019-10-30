@@ -15,7 +15,8 @@ public class PrivateKey {
     public static final int LENGTH = 32;
 
     /**
-     * Generate private key from the seed
+     * Generate private key from the seed.
+     *
      * @param seed seed instance
      * @return private key instance
      */
@@ -24,7 +25,8 @@ public class PrivateKey {
     }
 
     /**
-     * Create private key instance from its base58 representation
+     * Create private key instance from its base58 representation.
+     *
      * @param base58Encoded private key bytes as base58-encoded string
      * @return private key instance
      * @throws IllegalArgumentException if base58 string is null
@@ -34,7 +36,8 @@ public class PrivateKey {
     }
 
     /**
-     * Create private key instance from its bytes
+     * Create private key instance from its bytes.
+     *
      * @param bytes private key bytes
      * @return private key instance
      * @throws IllegalArgumentException if the length of the byte array is different than expected
@@ -50,7 +53,8 @@ public class PrivateKey {
     private PublicKey publicKey;
 
     /**
-     * Generate private key from the seed
+     * Generate private key from the seed.
+     *
      * @param seed seed instance
      */
     public PrivateKey(Seed seed) {
@@ -66,7 +70,8 @@ public class PrivateKey {
     }
 
     /**
-     * Create private key instance from its base58 representation
+     * Create private key instance from its base58 representation.
+     *
      * @param base58Encoded private key bytes as base58-encoded string
      * @throws IllegalArgumentException if base58 string is null
      */
@@ -75,7 +80,8 @@ public class PrivateKey {
     }
 
     /**
-     * Create private key instance from its bytes
+     * Create private key instance from its bytes.
+     *
      * @param privateKeyBytes private key bytes
      * @throws IllegalArgumentException if the length of the byte array is different than expected
      */
@@ -86,7 +92,8 @@ public class PrivateKey {
     }
 
     /**
-     * Get bytes of the private key
+     * Get bytes of the private key.
+     *
      * @return bytes of the private key
      */
     public byte[] bytes() {
@@ -94,7 +101,8 @@ public class PrivateKey {
     }
 
     /**
-     * Get the private key as base58-encoded string
+     * Get the private key as base58-encoded string.
+     *
      * @return the private key as base58-encoded string
      */
     public String base58() {
@@ -103,7 +111,8 @@ public class PrivateKey {
     }
 
     /**
-     * Get a public key generated from the private key
+     * Get a public key generated from the private key.
+     *
      * @return generated public key
      */
     public PublicKey publicKey() {
@@ -114,6 +123,7 @@ public class PrivateKey {
     /**
      * Get an address generated from the public key of this private key.
      * Depends on the Id of a particular blockchain network.
+     *
      * @param chainId blockchain network Id.
      * @return address
      * @see com.wavesplatform.crypto.ChainId
@@ -123,7 +133,8 @@ public class PrivateKey {
     }
 
     /**
-     * Sign the message with the private key
+     * Sign the message with the private key.
+     *
      * @param message message bytes
      * @return signature proof
      */
@@ -132,7 +143,8 @@ public class PrivateKey {
     }
 
     /**
-     * Check if the message is actually signed by the private key
+     * Check if the message is actually signed by the private key.
+     *
      * @param message message bytes
      * @param signature signature proof
      * @return true if the proof is valid

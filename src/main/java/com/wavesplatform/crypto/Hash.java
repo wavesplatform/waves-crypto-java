@@ -7,7 +7,6 @@ import org.bouncycastle.crypto.digests.SHA256Digest;
 
 /**
  * Contains static methods to get cryptographic hashes.
- *
  * Supports all algorithms used in the Waves blockchain protocol.
  */
 @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"})
@@ -19,6 +18,7 @@ public abstract class Hash {
 
     /**
      * Calculates Sha256 hash of source bytes.
+     *
      * @param source byte array
      * @return Sha256 hash
      */
@@ -28,6 +28,7 @@ public abstract class Hash {
 
     /**
      * Calculates Blake2b256 hash of source bytes.
+     *
      * @param source byte array
      * @return Blake2b256 hash
      */
@@ -37,6 +38,7 @@ public abstract class Hash {
 
     /**
      * Calculates Keccak256 hash of source bytes.
+     *
      * @param source byte array
      * @return Keccak256 hash
      */
@@ -46,6 +48,7 @@ public abstract class Hash {
 
     /**
      * Calculates secure hash of source bytes.
+     *
      * @param source byte array
      * @return Keccak256(Blake2b256) hash
      */

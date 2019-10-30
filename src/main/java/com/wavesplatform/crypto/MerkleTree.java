@@ -17,7 +17,8 @@ import static java.util.stream.Collectors.toList;
 public class MerkleTree {
 
     /**
-     * Create Merkle tree of provided leafs
+     * Create Merkle tree of provided leafs.
+     *
      * @param leafs leafs as arrays of bytes
      * @return Merkle tree
      */
@@ -26,7 +27,8 @@ public class MerkleTree {
     }
 
     /**
-     * Create Merkle tree of provided leafs
+     * Create Merkle tree of provided leafs.
+     *
      * @param leafs leafs as arrays of bytes
      * @return Merkle tree
      */
@@ -44,9 +46,9 @@ public class MerkleTree {
     private byte[] EMPTY_PROOF = new byte[]{LEFT, 0};
 
     /**
-     * Create Merkle tree of provided leafs
+     * Create Merkle tree of provided leafs.
+     *
      * @param leafs leafs as arrays of bytes
-     * @return Merkle tree
      */
     public MerkleTree(byte[]... leafs) {
         hashes = Arrays.stream(leafs).map(this::leafHash).collect(toList());
@@ -55,16 +57,17 @@ public class MerkleTree {
     }
 
     /**
-     * Create Merkle tree of provided leafs
+     * Create Merkle tree of provided leafs.
+     *
      * @param leafs leafs as arrays of bytes
-     * @return Merkle tree
      */
     public MerkleTree(List<byte[]> leafs) {
         this(leafs.toArray(new byte[leafs.size()][]));
     }
 
     /**
-     * Get root hash of the tree
+     * Get root hash of the tree.
+     *
      * @return root hash
      */
     public byte[] rootHash() {
@@ -72,9 +75,11 @@ public class MerkleTree {
     }
 
     /**
-     * Get a proof for a leaf with specified index
+     * Get a proof for a leaf with specified index.
+     *
      * @param index leaf index
      * @return leaf proof
+     * @throws IllegalArgumentException if the tree hasn't a leaf with this index
      */
     public byte[] proofByLeafIndex(int index) throws IllegalArgumentException {
         if (index < 0 || index >= hashes.size()) throw new IllegalArgumentException("No leaf with index " + index);
@@ -82,10 +87,11 @@ public class MerkleTree {
     }
 
     /**
-     * Get a proof for a leaf with specified hash
+     * Get a proof for a leaf with specified hash.
+     *
      * @param hash leaf blake2b256 hash
      * @return leaf proof
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if the tree hasn't a leaf with this hash
      */
     public byte[] proofByLeafHash(byte[] hash) throws IllegalArgumentException {
         OptionalInt index = IntStream.range(0, hashes.size())
@@ -98,17 +104,19 @@ public class MerkleTree {
     }
 
     /**
-     * Get a proof for a leaf
+     * Get a proof for a leaf.
+     *
      * @param leaf leaf bytes
      * @return leaf proof
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if the tree hasn't the leaf
      */
     public byte[] proofByLeaf(byte[] leaf) throws IllegalArgumentException {
         return proofByLeafHash(leafHash(leaf));
     }
 
     /**
-     * Checks that proof of a leaf is valid
+     * Checks that proof of a leaf is valid.
+     *
      * @param proof proof
      * @param leafValue leaf bytes
      * @return true if the proof is valid for the specified leaf

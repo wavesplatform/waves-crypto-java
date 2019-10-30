@@ -16,7 +16,8 @@ public class PublicKey {
     public static final int SIGNATURE_LENGTH = 64;
 
     /**
-     * Generate public key from the private key
+     * Generate public key from the private key.
+     *
      * @param privateKey public key
      * @return public key instance
      */
@@ -25,7 +26,8 @@ public class PublicKey {
     }
 
     /**
-     * Create public key instance from its base58 representation
+     * Create public key instance from its base58 representation.
+     *
      * @param base58Encoded public key bytes as base58-encoded string
      * @return public key instance
      * @throws IllegalArgumentException if base58 string is null
@@ -35,7 +37,8 @@ public class PublicKey {
     }
 
     /**
-     * Create public key instance from its bytes
+     * Create public key instance from its bytes.
+     *
      * @param bytes public key bytes
      * @return public key instance
      * @throws IllegalArgumentException if the length of the byte array is different than expected
@@ -50,7 +53,8 @@ public class PublicKey {
     private String encoded;
 
     /**
-     * Generate public key from the private key
+     * Generate public key from the private key.
+     *
      * @param privateKey public key
      */
     public PublicKey(PrivateKey privateKey) {
@@ -59,7 +63,8 @@ public class PublicKey {
     }
 
     /**
-     * Create public key instance from its base58 representation
+     * Create public key instance from its base58 representation.
+     *
      * @param base58Encoded public key bytes as base58-encoded string
      * @throws IllegalArgumentException if base58 string is null
      */
@@ -68,7 +73,8 @@ public class PublicKey {
     }
 
     /**
-     * Create public key instance from its bytes
+     * Create public key instance from its bytes.
+     *
      * @param publicKeyBytes public key bytes
      * @throws IllegalArgumentException if the length of the byte array is different than expected
      */
@@ -79,7 +85,8 @@ public class PublicKey {
     }
 
     /**
-     * Get bytes of the public key
+     * Get bytes of the public key.
+     *
      * @return bytes of the public key
      */
     public byte[] bytes() {
@@ -87,7 +94,8 @@ public class PublicKey {
     }
 
     /**
-     * Get the public key as base58-encoded string
+     * Get the public key as base58-encoded string.
+     *
      * @return the public key as base58-encoded string
      */
     public String base58() {
@@ -98,6 +106,7 @@ public class PublicKey {
     /**
      * Get an address generated from the public key.
      * Depends on the Id of a particular blockchain network.
+     *
      * @param chainId blockchain network Id.
      * @return address
      * @see com.wavesplatform.crypto.ChainId
@@ -107,7 +116,8 @@ public class PublicKey {
     }
 
     /**
-     * Check if the message is actually signed by the private key of this public key
+     * Check if the message is actually signed by the private key of this public key.
+     *
      * @param message message bytes
      * @param signature signature proof
      * @return true if the proof is valid
