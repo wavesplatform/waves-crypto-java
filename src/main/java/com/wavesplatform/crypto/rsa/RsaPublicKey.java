@@ -30,6 +30,17 @@ public class RsaPublicKey {
     /**
      * Create the public key from its bytes.
      *
+     * @param encodedPublicKey base58-encoded public key
+     * @return RSA public key
+     * @throws IllegalArgumentException if base58 is null
+     */
+    public static RsaPublicKey from(Base58 encodedPublicKey) {
+        return new RsaPublicKey(encodedPublicKey);
+    }
+
+    /**
+     * Create the public key from its bytes.
+     *
      * @param publicKeyBytes bytes of the public key
      * @return RSA public key
      */
@@ -47,6 +58,16 @@ public class RsaPublicKey {
      */
     public RsaPublicKey(RsaKeyPair keyPair) {
         this(keyPair.publicKey());
+    }
+
+    /**
+     * Create the public key from its bytes.
+     *
+     * @param encodedPublicKey base58-encoded public key
+     * @throws IllegalArgumentException if base58 is null
+     */
+    public RsaPublicKey(Base58 encodedPublicKey) throws IllegalArgumentException {
+        this(encodedPublicKey.decoded());
     }
 
     /**

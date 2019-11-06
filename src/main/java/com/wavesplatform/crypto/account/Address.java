@@ -28,11 +28,22 @@ public class Address {
     /**
      * Create address instance from its base58 representation.
      *
+     * @param encodedAddress address bytes as base58
+     * @return address instance
+     * @throws IllegalArgumentException if the base58 arg is null
+     */
+    public static Address as(Base58 encodedAddress) throws IllegalArgumentException {
+        return new Address(encodedAddress);
+    }
+
+    /**
+     * Create address instance from its base58 representation.
+     *
      * @param base58Encoded address bytes as base58-encoded string
      * @return address instance
      * @throws IllegalArgumentException if base58 string is null
      */
-    public static Address as(Base58 base58Encoded) throws IllegalArgumentException {
+    public static Address as(String base58Encoded) throws IllegalArgumentException {
         return new Address(base58Encoded);
     }
 
@@ -118,11 +129,21 @@ public class Address {
     /**
      * Create address instance from its base58 representation.
      *
-     * @param encodedAddress address bytes as base58-encoded string
-     * @throws IllegalArgumentException if base58 string is null
+     * @param encodedAddress address bytes as base58
+     * @throws IllegalArgumentException if the base58 arg is null
      */
     public Address(Base58 encodedAddress) throws IllegalArgumentException {
         this(encodedAddress.decoded());
+    }
+
+    /**
+     * Create address instance from its base58 representation.
+     *
+     * @param encodedAddress address bytes as base58-encoded string
+     * @throws IllegalArgumentException if base58 string is null
+     */
+    public Address(String encodedAddress) throws IllegalArgumentException {
+        this(Base58.decode(encodedAddress));
     }
 
     /**
@@ -166,12 +187,12 @@ public class Address {
     }
 
     /**
-     * Get the address as base58-encoded string.
+     * Get the address encoded to base58.
      *
-     * @return the address as base58-encoded string
+     * @return the base58-encoded address
      */
-    public String base58() {
-        return this.encoded;
+    public Base58 base58() {
+        return new Base58(this.bytes);
     }
 
     @Override
@@ -189,7 +210,8 @@ public class Address {
 
     @Override
     public String toString() {
-        return this.base58();
+        if (this.encoded == null) this.encoded = Base58.encode(bytes);
+        return this.encoded;
     }
 
 }

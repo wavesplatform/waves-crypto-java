@@ -27,7 +27,18 @@ public class PrivateKey {
     /**
      * Create private key instance from its base58 representation.
      *
-     * @param base58Encoded private key bytes as base58-encoded string
+     * @param encodedPrivateKey private key bytes as base58
+     * @return private key instance
+     * @throws IllegalArgumentException if base58 arg is null
+     */
+    public static PrivateKey as(Base58 encodedPrivateKey) throws IllegalArgumentException {
+        return new PrivateKey(encodedPrivateKey);
+    }
+
+    /**
+     * Create private key instance from its base58 representation.
+     *
+     * @param base58Encoded private key bytes as base58
      * @return private key instance
      * @throws IllegalArgumentException if base58 string is null
      */
@@ -72,6 +83,16 @@ public class PrivateKey {
     /**
      * Create private key instance from its base58 representation.
      *
+     * @param encodedPrivateKey private key bytes as base58
+     * @throws IllegalArgumentException if base58 arg is null
+     */
+    public PrivateKey(Base58 encodedPrivateKey) throws IllegalArgumentException {
+        this(encodedPrivateKey.decoded());
+    }
+
+    /**
+     * Create private key instance from its base58 representation.
+     *
      * @param base58Encoded private key bytes as base58-encoded string
      * @throws IllegalArgumentException if base58 string is null
      */
@@ -101,13 +122,12 @@ public class PrivateKey {
     }
 
     /**
-     * Get the private key as base58-encoded string.
+     * Get the private key encoded to base58.
      *
-     * @return the private key as base58-encoded string
+     * @return the base58-encoded private key
      */
-    public String base58() {
-        if (this.encoded == null) this.encoded = Base58.encode(bytes);
-        return this.encoded;
+    public Base58 base58() {
+        return new Base58(this.bytes);
     }
 
     /**
@@ -173,7 +193,8 @@ public class PrivateKey {
 
     @Override
     public String toString() {
-        return this.base58();
+        if (this.encoded == null) this.encoded = Base58.encode(bytes);
+        return this.encoded;
     }
 
 }

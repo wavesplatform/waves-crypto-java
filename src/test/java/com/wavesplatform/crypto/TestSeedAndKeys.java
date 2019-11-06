@@ -20,9 +20,9 @@ class TestSeedAndKeys {
 
         assertThat(seed.phrase()).isEqualTo(phrase);
         assertThat(seed.nonce()).isEqualTo(0);
-        assertThat(seed.privateKey().base58()).isEqualTo(privateKey);
-        assertThat(seed.publicKey().base58()).isEqualTo(publicKey);
-        assertThat(seed.privateKey().address(TESTNET).base58()).isEqualTo(address);
+        assertThat(seed.privateKey().toString()).isEqualTo(privateKey);
+        assertThat(seed.publicKey().toString()).isEqualTo(publicKey);
+        assertThat(seed.privateKey().address(TESTNET).toString()).isEqualTo(address);
     }
 
 }
