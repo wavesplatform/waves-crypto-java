@@ -40,10 +40,10 @@ public class MerkleTree {
     private final List<byte[]> proofs;
     private final byte[] root;
 
-    private byte LEFT = 0, RIGHT = 1;
-    private byte[] LEAF = new byte[]{0}, NODE = new byte[]{1};
-    private byte[] EMPTY = new byte[]{};
-    private byte[] EMPTY_PROOF = new byte[]{LEFT, 0};
+    private final byte LEFT = 0, RIGHT = 1;
+    private final byte[] LEAF = new byte[]{0}, NODE = new byte[]{1};
+    private final byte[] EMPTY = new byte[]{};
+    private final byte[] EMPTY_PROOF = new byte[]{LEFT, 0};
 
     /**
      * Create Merkle tree of provided leafs.

@@ -17,7 +17,7 @@ public enum HashAlg {
     SHA3_384("SHA3-384"),
     SHA3_512("SHA3-512");
 
-    private String value;
+    private final String value;
 
     HashAlg(String name) {
         this.value = name;

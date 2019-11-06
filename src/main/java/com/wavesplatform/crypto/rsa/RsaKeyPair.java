@@ -3,7 +3,6 @@ package com.wavesplatform.crypto.rsa;
 import com.wavesplatform.crypto.base.Base58;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import java.security.KeyPair;
 import java.security.*;
 import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.spec.InvalidKeySpecException;
@@ -123,16 +122,16 @@ public class RsaKeyPair {
      *
      * @param alg hashing algorithm
      * @param message message bytes
-     * @param proof signature proof
-     * @return true if the proof is valid
+     * @param signature signature to validate
+     * @return true if the signature is valid
      * @see com.wavesplatform.crypto.rsa.HashAlg
      */
-    public boolean isSignatureValid(HashAlg alg, byte[] message, byte[] proof) {
+    public boolean isSignatureValid(HashAlg alg, byte[] message, byte[] signature) {
         try {
             Signature sig = initJSignature(alg);
             sig.initVerify(this.publicKey);
             sig.update(message);
-            return sig.verify(proof);
+            return sig.verify(signature);
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             throw new RuntimeException(e);
         }

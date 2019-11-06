@@ -119,8 +119,8 @@ public class PublicKey {
      * Check if the message is actually signed by the private key of this public key.
      *
      * @param message message bytes
-     * @param signature signature proof
-     * @return true if the proof is valid
+     * @param signature signature to validate
+     * @return true if the signature is valid
      * @throws IllegalArgumentException if signature length is different from expected
      */
     public boolean isSignatureValid(byte[] message, byte[] signature) throws IllegalArgumentException {

@@ -136,7 +136,7 @@ public class PrivateKey {
      * Sign the message with the private key.
      *
      * @param message message bytes
-     * @return signature proof
+     * @return signature
      */
     public byte[] sign(byte[] message) {
         return cipher.calculateSignature(this.bytes, message);
@@ -146,8 +146,8 @@ public class PrivateKey {
      * Check if the message is actually signed by the private key.
      *
      * @param message message bytes
-     * @param signature signature proof
-     * @return true if the proof is valid
+     * @param signature signature to validate
+     * @return true if the signature is valid
      * @throws IllegalArgumentException if signature length is different from expected
      */
     public boolean isSignatureValid(byte[] message, byte[] signature) throws IllegalArgumentException {

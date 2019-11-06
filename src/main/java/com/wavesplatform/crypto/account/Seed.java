@@ -103,7 +103,7 @@ public class Seed {
     }
 
     private final byte[] bytes;
-    private int nonce;
+    private final int nonce;
     private String encoded;
     private PrivateKey privateKey;
 
@@ -229,7 +229,7 @@ public class Seed {
      * Sign the message with the private key of the seed.
      *
      * @param message message bytes
-     * @return signature proof
+     * @return signature
      */
     public byte[] sign(byte[] message) {
         return this.privateKey().sign(message);
@@ -239,8 +239,8 @@ public class Seed {
      * Check if the message is actually signed by the private key of this seed.
      *
      * @param message message bytes
-     * @param signature signature proof
-     * @return true if the proof is valid
+     * @param signature signature to validate
+     * @return true if the signature is valid
      */
     public boolean isSignatureValid(byte[] message, byte[] signature) throws IllegalArgumentException {
         return this.publicKey().isSignatureValid(message, signature);

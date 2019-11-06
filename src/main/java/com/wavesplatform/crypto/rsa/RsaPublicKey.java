@@ -80,16 +80,16 @@ public class RsaPublicKey {
      *
      * @param alg hashing algorithm
      * @param message message bytes
-     * @param proof signature proof
-     * @return true if the proof is valid
+     * @param signature signature to validate
+     * @return true if the signature is valid
      * @see com.wavesplatform.crypto.rsa.HashAlg
      */
-    public boolean isSignatureValid(HashAlg alg, byte[] message, byte[] proof) {
+    public boolean isSignatureValid(HashAlg alg, byte[] message, byte[] signature) {
         try {
             Signature sig = Signature.getInstance(alg.value() + "withRSA", bcp);
             sig.initVerify(this.key);
             sig.update(message);
-            return sig.verify(proof);
+            return sig.verify(signature);
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             throw new RuntimeException(e);
         }
