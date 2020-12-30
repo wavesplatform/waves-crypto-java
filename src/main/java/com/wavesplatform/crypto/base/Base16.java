@@ -1,4 +1,4 @@
-package com.wavesplatform.waves.crypto.base;
+package com.wavesplatform.crypto.base;
 
 /**
  * Base16 is used to represent byte arrays as a readable string.

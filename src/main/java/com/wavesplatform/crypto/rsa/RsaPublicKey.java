@@ -1,6 +1,6 @@
-package com.wavesplatform.waves.crypto.rsa;
+package com.wavesplatform.crypto.rsa;
 
-import com.wavesplatform.waves.crypto.base.Base58;
+import com.wavesplatform.crypto.base.Base58;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.*;

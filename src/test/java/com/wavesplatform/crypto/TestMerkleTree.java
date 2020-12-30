@@ -1,4 +1,4 @@
-package com.wavesplatform.waves.crypto;
+package com.wavesplatform.crypto;
 
 import org.junit.jupiter.api.Test;
 

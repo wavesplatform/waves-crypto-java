@@ -1,4 +1,4 @@
-package com.wavesplatform.waves.crypto;
+package com.wavesplatform.crypto;
 
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.digests.Blake2bDigest;

@@ -1,4 +1,4 @@
-package com.wavesplatform.waves.crypto.internal;
+package com.wavesplatform.crypto.internal;
 
 public abstract class Dictionary {
 
