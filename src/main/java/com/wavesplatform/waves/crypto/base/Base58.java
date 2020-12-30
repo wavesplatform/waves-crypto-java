@@ -1,6 +1,6 @@
-package im.mak.waves.crypto.base;
+package com.wavesplatform.waves.crypto.base;
 
-import im.mak.waves.crypto.Bytes;
+import com.wavesplatform.waves.crypto.Bytes;
 
 import java.util.Arrays;
 

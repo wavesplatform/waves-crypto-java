@@ -1,6 +1,6 @@
-package im.mak.waves.crypto;
+package com.wavesplatform.waves.crypto;
 
-import im.mak.waves.crypto.base.Base16;
+import com.wavesplatform.waves.crypto.base.Base16;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

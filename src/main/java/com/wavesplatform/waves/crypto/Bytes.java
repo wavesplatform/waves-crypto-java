@@ -1,4 +1,4 @@
-package im.mak.waves.crypto;
+package com.wavesplatform.waves.crypto;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;

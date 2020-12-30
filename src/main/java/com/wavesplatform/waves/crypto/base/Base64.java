@@ -1,4 +1,4 @@
-package im.mak.waves.crypto.base;
+package com.wavesplatform.waves.crypto.base;
 
 /**
  * Base64 is used to represent byte arrays as a readable string.
